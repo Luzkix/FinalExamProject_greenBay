@@ -12,4 +12,6 @@ public interface UserService {
   RegisterResponseDTO convertUserToRegisterResponseDTO(UserEntity newUser);
 
   UserTokenDTO loginPlayer(LoginRequestDTO loginRequestDTO) throws RuntimeException;
+
+  UserEntity findByUsername(String username);
 }

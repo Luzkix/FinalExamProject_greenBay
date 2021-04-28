@@ -1,5 +1,6 @@
 package com.greenfoxacademy.greenbayapp.user.controllers;
 
+import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
 import com.greenfoxacademy.greenbayapp.user.models.DTO.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
@@ -8,6 +9,8 @@ import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +33,11 @@ public class UserController {
   @PostMapping (LOGIN)
   public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO) throws RuntimeException {
     return ResponseEntity.ok(userService.loginPlayer(loginRequestDTO));
+  }
+
+  //just for testing purposes of spring security - Authentication
+  @GetMapping("/test")
+  public String showPassword(Authentication auth) throws RuntimeException {
+    return ((CustomUserDetails) auth.getPrincipal()).getPassword();
   }
 }

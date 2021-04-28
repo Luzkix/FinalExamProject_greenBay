@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService {
     }
     return null;
   }
+
+  @Override
+  public UserEntity findByUsername(String username) {
+    return userRepository.findByUsername(username);
+  }
 }

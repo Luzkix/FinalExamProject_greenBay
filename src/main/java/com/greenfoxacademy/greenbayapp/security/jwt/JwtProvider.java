@@ -1,6 +1,7 @@
 package com.greenfoxacademy.greenbayapp.security.jwt;
 
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.time.LocalDate;
@@ -32,5 +33,15 @@ public class JwtProvider {
         .compact();
 
     return token;
+  }
+
+  public Boolean validateToken(String token) throws Exception{
+    Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+    return true;
+  }
+
+  public String getLoginFromToken(String token) {
+    Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+    return claims.get("username", String.class);
   }
 }
