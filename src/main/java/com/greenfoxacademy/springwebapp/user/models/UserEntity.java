@@ -29,11 +29,11 @@ public class UserEntity {
   private Long id;
 
   @NotNull
-  @Column(name = "username", unique = true)
+  @Column(name = "username")
   private String username;
 
   @NotNull
-  @Column(name = "email", unique = true)
+  @Column(name = "email")
   private String email;
 
   @NotNull

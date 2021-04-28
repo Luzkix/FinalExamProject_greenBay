@@ -32,7 +32,8 @@ public class UserServiceTest {
   public void registerNewUserReturnsCorrectUser() {
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
     UserEntity savedUser = UserFactory.createDefaultUser(0L);
-    Mockito.when(userRepository.existsByUsernameOrEmail(dto.getUsername(),dto.getEmail())).thenReturn(false);
+    Mockito.when(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(dto.getUsername(),dto.getEmail()))
+        .thenReturn(false);
     Mockito.doReturn(savedUser).when(userService).saveNewUser(dto);
 
     UserEntity result = userService.registerNewUser(dto);
@@ -45,7 +46,8 @@ public class UserServiceTest {
   @Test(expected = RuntimeException.class)
   public void registerUserThrowsNewRuntimeException() {
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
-    Mockito.when(userRepository.existsByUsernameOrEmail(dto.getUsername(), dto.getEmail())).thenThrow(RuntimeException.class);
+    Mockito.when(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(dto.getUsername(), dto.getEmail()))
+        .thenThrow(RuntimeException.class);
 
     UserEntity result = userService.registerNewUser(dto);
   }

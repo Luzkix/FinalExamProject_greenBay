@@ -31,4 +31,9 @@ public class UserController {
   public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO) throws RuntimeException {
     return ResponseEntity.ok(userService.loginPlayer(loginRequestDTO));
   }
+
+  @PostMapping (LOGIN+"s")
+  public ResponseEntity<?> loginsUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO) throws RuntimeException {
+    return ResponseEntity.ok(userService.loginPlayer(loginRequestDTO));
+  }
 }

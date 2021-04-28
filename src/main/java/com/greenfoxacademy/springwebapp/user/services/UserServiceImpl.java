@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserEntity registerNewUser(RegisterRequestDTO registerRequestDTO)  throws RuntimeException{
-    if(userRepository.existsByUsernameOrEmail(
+    if(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(
         registerRequestDTO.getUsername(),
         registerRequestDTO.getEmail())) {
       throw new RuntimeException("Username or email is already taken!");
