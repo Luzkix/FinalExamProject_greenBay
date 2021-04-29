@@ -33,9 +33,12 @@ public class Product {
   @NotNull
   private String description;
   @NotNull
-  private String url;
+  private String photoUrl;
+  @NotNull
   private Integer startingPrice;
+  @NotNull
   private Integer purchasePrice;
+
   private Boolean sold;
   private LocalDateTime enlistingTime;
   private LocalDateTime soldTime;

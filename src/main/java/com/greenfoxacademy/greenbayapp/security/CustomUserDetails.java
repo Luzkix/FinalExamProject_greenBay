@@ -21,6 +21,9 @@ public class CustomUserDetails implements UserDetails {
     return details;
   }
 
+  public UserEntity getUser() {
+    return user;
+  }
 
   @Override
   public Collection<GrantedAuthority> getAuthorities() {

@@ -1,0 +1,71 @@
+### REGISTER NEW USER - when empty database
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+  "username" : "zdenek",
+  "email" : "test@seznam.cz",
+  "password" : "password"
+}
+
+### LOGIN USER - get your own valid token and replace tokens bellow
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "username" : "zdenek",
+  "password" : "password"
+}
+
+### TESTS
+### Post PRODUCT - OK result
+POST http://localhost:8080/product
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE5MzUwMDcyMDAsInVzZXJuYW1lIjoiemRlbmVrIn0.frQW_Nj57ZhbJE8InoHEMB2jVHvOT-Ewu4IqbwUNVXXJSJDiYripKSaQXJs0SLuwkzOyzqFIBb3q6uzHC71ZLA
+Content-Type: application/json
+
+{
+  "name": "car",
+  "description": "blue car",
+  "photoUrl": "http://localhost:8080",
+  "startingPrice": 100,
+  "purchasePrice": 500
+}
+
+### Post PRODUCT - error - missing car name
+POST http://localhost:8080/product
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE5MzUwMDcyMDAsInVzZXJuYW1lIjoiemRlbmVrIn0.frQW_Nj57ZhbJE8InoHEMB2jVHvOT-Ewu4IqbwUNVXXJSJDiYripKSaQXJs0SLuwkzOyzqFIBb3q6uzHC71ZLA
+Content-Type: application/json
+
+{
+
+  "description": "blue car",
+  "photoUrl": "http://localhost:8080",
+  "startingPrice": 100,
+  "purchasePrice": 500
+}
+
+### Post PRODUCT - error - wrong http address
+POST http://localhost:8080/product
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE5MzUwMDcyMDAsInVzZXJuYW1lIjoiemRlbmVrIn0.frQW_Nj57ZhbJE8InoHEMB2jVHvOT-Ewu4IqbwUNVXXJSJDiYripKSaQXJs0SLuwkzOyzqFIBb3q6uzHC71ZLA
+Content-Type: application/json
+
+{
+  "name": "car",
+  "description": "blue car",
+  "photoUrl": "ttp://localhost:8080/product",
+  "startingPrice": 100,
+  "purchasePrice": 500
+}
+
+### Post PRODUCT - error - StartingPrice less than 1
+POST http://localhost:8080/product
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE5MzUwMDcyMDAsInVzZXJuYW1lIjoiemRlbmVrIn0.frQW_Nj57ZhbJE8InoHEMB2jVHvOT-Ewu4IqbwUNVXXJSJDiYripKSaQXJs0SLuwkzOyzqFIBb3q6uzHC71ZLA
+Content-Type: application/json
+
+{
+  "name": "car",
+  "description": "blue car",
+  "photoUrl": "http://localhost:8080",
+  "startingPrice": 0,
+  "purchasePrice": 500
+}

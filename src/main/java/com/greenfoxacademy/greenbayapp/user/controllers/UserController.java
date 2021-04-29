@@ -38,6 +38,7 @@ public class UserController {
   //just for testing purposes of spring security - Authentication
   @GetMapping("/test")
   public String showPassword(Authentication auth) throws RuntimeException {
-    return ((CustomUserDetails) auth.getPrincipal()).getPassword();
+    UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
+    return user.getPassword();
   }
 }
