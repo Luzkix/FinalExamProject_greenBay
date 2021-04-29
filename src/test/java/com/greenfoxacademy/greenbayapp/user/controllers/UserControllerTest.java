@@ -26,7 +26,7 @@ public class UserControllerTest {
   public void registerUserShouldReturn201StatusCode(){
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
     RegisterResponseDTO responseDTO = new RegisterResponseDTO(1l,"zdenek","test@seznam.cz");
-    UserEntity newUser = UserFactory.createDefaultUser(0l);
+    UserEntity newUser = UserFactory.createDefaultUser(0);
 
     Mockito.when(userService.registerNewUser(dto)).thenReturn(newUser);
     Mockito.when(userService.convertUserToRegisterResponseDTO(newUser)).thenReturn(responseDTO);

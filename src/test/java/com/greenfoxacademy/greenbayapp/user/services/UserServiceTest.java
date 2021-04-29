@@ -31,7 +31,7 @@ public class UserServiceTest {
   @Test
   public void registerNewUserReturnsCorrectUser() {
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
-    UserEntity savedUser = UserFactory.createDefaultUser(0L);
+    UserEntity savedUser = UserFactory.createDefaultUser(0);
     Mockito.when(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(dto.getUsername(),dto.getEmail()))
         .thenReturn(false);
     Mockito.doReturn(savedUser).when(userService).saveNewUser(dto);
@@ -59,7 +59,7 @@ public class UserServiceTest {
     Mockito.when(passwordEncoder.encode(dto.getPassword())).thenReturn("password");
     Mockito.when(userRepository.save(newUser)).thenReturn(newUser);
 
-    UserEntity savedUser = UserFactory.createDefaultUser(0l);
+    UserEntity savedUser = UserFactory.createDefaultUser(0);
 
     Assert.assertEquals("zdenek", savedUser.getUsername());
     Assert.assertEquals("test@seznam.cz", savedUser.getEmail());
@@ -68,7 +68,7 @@ public class UserServiceTest {
 
   @Test
   public void convertUserToRegisterResponseDTO_returnsCorrectResponseDTO() {
-   UserEntity user = UserFactory.createDefaultUser(5l);
+   UserEntity user = UserFactory.createDefaultUser(5);
    user.setId(1l);
 
     RegisterResponseDTO savedUser = userService.convertUserToRegisterResponseDTO(user);
@@ -80,7 +80,7 @@ public class UserServiceTest {
   @Test
   public void loginPlayer_returnsToken() {
     LoginRequestDTO request = UserFactory.createDefaultLoginDTO();
-    UserEntity loggedUser = UserFactory.createDefaultUser(0l);
+    UserEntity loggedUser = UserFactory.createDefaultUser(0);
     Mockito.doReturn(loggedUser).when(userService).findUserByNameAndPassword(request.getUsername(),
         request.getPassword());
     Mockito.when(jwtProvider.generateToken(loggedUser)).thenReturn("createdToken");

@@ -12,7 +12,7 @@ public class UserFactory {
         password);
   }
 
-  public static UserEntity createDefaultUser(Long dollars){
+  public static UserEntity createDefaultUser(Integer dollars){
     UserEntity defaultUser = createUser(
         "zdenek",
         "test@seznam.cz",

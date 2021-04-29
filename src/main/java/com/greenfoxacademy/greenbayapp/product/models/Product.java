@@ -1,11 +1,15 @@
 package com.greenfoxacademy.greenbayapp.product.models;
 
+import com.greenfoxacademy.greenbayapp.bid.models.Bid;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,4 +38,7 @@ public class Product {
   private UserEntity seller;
   @ManyToOne
   private UserEntity buyer;
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  List<Bid> bids;
 }

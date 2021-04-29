@@ -2,14 +2,14 @@ package com.greenfoxacademy.greenbayapp.user.services;
 
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
 import com.greenfoxacademy.greenbayapp.user.models.DTO.LoginRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.UserTokenDTO;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterResponseDTO;
+import com.greenfoxacademy.greenbayapp.user.models.DTO.UserTokenDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
