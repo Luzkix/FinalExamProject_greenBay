@@ -9,16 +9,17 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 public class JwtProvider {
 
-  //@Value("${JWT.SECRET}")
-  private String jwtSecret = "topSecret";
-  //@Value("${JWT_EXPIRE_DAYS:1}")
-  private int jwtExpireDays = 3650;
+  @Value("${jwt.secret}")
+  private String jwtSecret;
+  @Value("${jwt.expire-days}")
+  private int jwtExpireDays;
 
   public String generateToken(UserEntity user) {
     Date expirationDate = Date.from(LocalDate.now().plusDays(jwtExpireDays).atStartOfDay(ZoneId.systemDefault()).toInstant());
