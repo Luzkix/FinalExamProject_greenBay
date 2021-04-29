@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "users")
@@ -41,11 +43,15 @@ public class UserEntity {
   @JsonIgnore
   private String password;
 
-  @Column(name = "green_bay_dollars")
-  private Long dollars = 0L;
+  private Long balance = 0L;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Product> products;
+  @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+  @LazyCollection(LazyCollectionOption.FALSE)
+  private List<Product> productsSelling;
+
+  @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+  @LazyCollection(LazyCollectionOption.FALSE)
+  private List<Product> productsBuing;
 
   public UserEntity(String username, String email, String password) {
     this.username = username;

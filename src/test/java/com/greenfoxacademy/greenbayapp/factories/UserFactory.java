@@ -17,7 +17,7 @@ public class UserFactory {
         "zdenek",
         "test@seznam.cz",
         "password");
-    defaultUser.setDollars(dollars);
+    defaultUser.setBalance(dollars);
     return defaultUser;
   }
 

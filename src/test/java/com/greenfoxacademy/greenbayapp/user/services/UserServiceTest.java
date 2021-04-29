@@ -40,7 +40,7 @@ public class UserServiceTest {
 
     Assert.assertEquals("zdenek", result.getUsername());
     Assert.assertEquals("password", result.getPassword());
-    Assert.assertEquals(0l, result.getDollars().longValue());
+    Assert.assertEquals(0l, result.getBalance().longValue());
   }
 
   @Test(expected = RuntimeException.class)

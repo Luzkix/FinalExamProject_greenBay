@@ -23,6 +23,15 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  private String name;
+  private String description;
+  private String url;
+  private Integer startingPrice;
+  private Integer purchasePrice;
+  private Boolean sold;
+
   @ManyToOne
-  private UserEntity user;
+  private UserEntity seller;
+  @ManyToOne
+  private UserEntity buyer;
 }
