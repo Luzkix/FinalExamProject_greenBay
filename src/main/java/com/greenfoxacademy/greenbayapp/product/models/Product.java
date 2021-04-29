@@ -2,6 +2,7 @@ package com.greenfoxacademy.greenbayapp.product.models;
 
 import com.greenfoxacademy.greenbayapp.bid.models.Bid;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,13 +28,17 @@ public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
+  @NotNull
   private String name;
+  @NotNull
   private String description;
+  @NotNull
   private String url;
   private Integer startingPrice;
   private Integer purchasePrice;
   private Boolean sold;
+  private LocalDateTime enlistingTime;
+  private LocalDateTime soldTime;
 
   @ManyToOne
   private UserEntity seller;
@@ -40,5 +46,5 @@ public class Product {
   private UserEntity buyer;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  List<Bid> bids;
+  private List<Bid> bids;
 }

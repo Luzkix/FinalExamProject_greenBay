@@ -1,6 +1,6 @@
-package com.greenfoxacademy.greenbayapp.exceptionhandling;
+package com.greenfoxacademy.greenbayapp.globalexceptionhandling;
 
-import com.greenfoxacademy.greenbayapp.exceptionhandling.DTO.ErrorDTO;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.DTO.ErrorDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;

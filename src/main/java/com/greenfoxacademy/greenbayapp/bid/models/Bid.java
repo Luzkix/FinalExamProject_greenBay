@@ -2,6 +2,7 @@ package com.greenfoxacademy.greenbayapp.bid.models;
 
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,14 +23,16 @@ import lombok.Setter;
 public class Bid {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+  private Long id;
 
-  Integer bidPrice;
+  private Integer bidPrice;
+
+  private LocalDateTime bidTime;
 
   @ManyToOne
-  Product product;
+  private Product product;
 
   @ManyToOne
-  UserEntity bidder;
+  private UserEntity bidder;
 
 }

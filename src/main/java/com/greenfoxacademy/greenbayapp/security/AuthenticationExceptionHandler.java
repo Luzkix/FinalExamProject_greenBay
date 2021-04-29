@@ -1,7 +1,7 @@
 package com.greenfoxacademy.greenbayapp.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.greenfoxacademy.greenbayapp.exceptionhandling.DTO.ErrorDTO;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.DTO.ErrorDTO;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.servlet.ServletException;

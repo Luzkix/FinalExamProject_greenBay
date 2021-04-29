@@ -1,4 +1,4 @@
-package com.greenfoxacademy.greenbayapp.exceptionhandling.DTO;
+package com.greenfoxacademy.greenbayapp.globalexceptionhandling.DTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
