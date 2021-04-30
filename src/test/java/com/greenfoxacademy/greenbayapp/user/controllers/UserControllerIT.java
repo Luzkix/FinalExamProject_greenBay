@@ -2,7 +2,7 @@ package com.greenfoxacademy.greenbayapp.user.controllers;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -103,7 +103,7 @@ public class UserControllerIT {
         .content(requestJson))
         .andExpect(status().is(200))
         .andExpect(jsonPath("$.status",is("ok")))
-        .andExpect(jsonPath("$.token",startsWith("ey")));;
+        .andExpect(jsonPath("$.token",matchesPattern(".+\\..+\\..+")));
   }
 
   @Test

@@ -1,5 +1,6 @@
 package com.greenfoxacademy.greenbayapp.factories;
 
+import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import java.time.LocalDateTime;
@@ -59,4 +60,27 @@ public class ProductFactory {
     UserEntity petr = UserFactory.createDefaultPetrUser();
     return createDefaultSoldProduct(1l, zdenek, petr);
   }
+
+  public static NewProductRequestDTO createProductRequestDTO (String name, String description, String photoUrl,
+                                                              Integer startingPrice, Integer purchasePrice) {
+    NewProductRequestDTO requestDTO = new NewProductRequestDTO();
+    requestDTO.setName(name);
+    requestDTO.setDescription(description);
+    requestDTO.setPhotoUrl(photoUrl);
+    requestDTO.setStartingPrice(startingPrice);
+    requestDTO.setPurchasePrice(purchasePrice);
+    return requestDTO;
+  }
+
+  public static NewProductRequestDTO createDefaultProductRequestDTO() {
+    return createProductRequestDTO(
+        "car",
+        "blue car",
+        "http://localhost:8080",
+        100,
+        500);
+  }
+
+
+
 }
