@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
   public static final String PRODUCT_URI = "/product";
 
-  ProductService productService;
+  private ProductService productService;
 
   @PostMapping(PRODUCT_URI)
   public ResponseEntity<?> postNewProduct(@RequestBody @Valid NewProductRequestDTO request, Authentication auth) {
