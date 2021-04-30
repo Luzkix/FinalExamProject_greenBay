@@ -1,5 +1,8 @@
 package com.greenfoxacademy.greenbayapp.user.services;
 
+import static org.mockito.ArgumentMatchers.any;
+
+
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
 import com.greenfoxacademy.greenbayapp.user.models.DTO.LoginRequestDTO;
@@ -31,7 +34,7 @@ public class UserServiceTest {
   @Test
   public void registerNewUserReturnsCorrectUser() {
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
-    UserEntity savedUser = UserFactory.createDefaultUser(0);
+    UserEntity savedUser = UserFactory.createDefaultZdenekUser();
     Mockito.when(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(dto.getUsername(),dto.getEmail()))
         .thenReturn(false);
     Mockito.doReturn(savedUser).when(userService).saveNewUser(dto);
@@ -55,32 +58,31 @@ public class UserServiceTest {
   @Test
   public void saveNewUserReturnsCorrectUser() {
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
-    UserEntity newUser = UserFactory.createUser("zdenek","test@seznam.cz","password");
+    UserEntity newUser = UserFactory.createDefaultZdenekUser();
     Mockito.when(passwordEncoder.encode(dto.getPassword())).thenReturn("password");
-    Mockito.when(userRepository.save(newUser)).thenReturn(newUser);
+    Mockito.when(userRepository.save(any())).thenReturn(newUser);
 
-    UserEntity savedUser = UserFactory.createDefaultUser(0);
+    UserEntity savedUser = userService.saveNewUser(dto);
 
     Assert.assertEquals("zdenek", savedUser.getUsername());
-    Assert.assertEquals("test@seznam.cz", savedUser.getEmail());
+    Assert.assertEquals("zdenek@seznam.cz", savedUser.getEmail());
     Assert.assertEquals("password", savedUser.getPassword());
   }
 
   @Test
   public void convertUserToRegisterResponseDTO_returnsCorrectResponseDTO() {
-   UserEntity user = UserFactory.createDefaultUser(5);
-   user.setId(1l);
+   UserEntity user = UserFactory.createDefaultZdenekUser();
 
     RegisterResponseDTO savedUser = userService.convertUserToRegisterResponseDTO(user);
     Assert.assertEquals(1l, savedUser.getId().longValue());
     Assert.assertEquals("zdenek", savedUser.getUsername());
-    Assert.assertEquals("test@seznam.cz", savedUser.getEmail());
+    Assert.assertEquals("zdenek@seznam.cz", savedUser.getEmail());
   }
 
   @Test
   public void loginPlayer_returnsToken() {
     LoginRequestDTO request = UserFactory.createDefaultLoginDTO();
-    UserEntity loggedUser = UserFactory.createDefaultUser(0);
+    UserEntity loggedUser = UserFactory.createDefaultZdenekUser();
     Mockito.doReturn(loggedUser).when(userService).findUserByNameAndPassword(request.getUsername(),
         request.getPassword());
     Mockito.when(jwtProvider.generateToken(loggedUser)).thenReturn("createdToken");

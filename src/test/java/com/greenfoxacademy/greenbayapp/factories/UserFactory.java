@@ -5,20 +5,39 @@ import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 
 public class UserFactory {
-  public static UserEntity createUser(String username, String email, String password){
-    return new UserEntity(
-        username,
-        email,
-        password);
+  public static UserEntity createUser(Long id, String username, String email, String password, Integer balance){
+    UserEntity user = new UserEntity(username, email, password);
+    user.setId(id);
+    user.setBalance(balance);
+    return user;
   }
 
-  public static UserEntity createDefaultUser(Integer dollars){
-    UserEntity defaultUser = createUser(
-        "zdenek",
-        "test@seznam.cz",
-        "password");
-    defaultUser.setBalance(dollars);
-    return defaultUser;
+  public static UserEntity createDefaultUser(Long id, String username){
+    return createUser(
+        id,
+        username,
+        username + "@seznam.cz",
+        "password",
+        0);
+  }
+
+  public static UserEntity createDefaultZdenekUser(){
+    return createDefaultUser(
+        1l,
+        "zdenek");
+  }
+
+  public static UserEntity createDefaultPetrUser(){
+    return createDefaultUserWithBalance(
+        2l,
+        "petr",
+        1000);
+  }
+
+  public static UserEntity createDefaultUserWithBalance(Long id, String username, int balance){
+    UserEntity user = createDefaultUser(id, username);
+    user.setBalance(balance);
+    return user;
   }
 
   public static RegisterRequestDTO createRegisterDTO(String username, String email, String password){

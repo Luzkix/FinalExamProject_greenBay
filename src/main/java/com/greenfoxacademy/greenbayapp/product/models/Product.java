@@ -40,6 +40,7 @@ public class Product {
   private Integer purchasePrice;
 
   private Boolean sold;
+  private Integer soldPrice;
   private LocalDateTime enlistingTime;
   private LocalDateTime soldTime;
 
