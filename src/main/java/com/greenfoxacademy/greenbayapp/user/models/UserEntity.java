@@ -3,7 +3,7 @@ package com.greenfoxacademy.greenbayapp.user.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfoxacademy.greenbayapp.bid.models.Bid;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,15 +44,15 @@ public class UserEntity {
 
   @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
   @LazyCollection(LazyCollectionOption.FALSE)
-  private List<Product> productsSelling;
+  private Set<Product> productsSelling;
 
   @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
   @LazyCollection(LazyCollectionOption.FALSE)
-  private List<Product> productsBought;
+  private Set<Product> productsBought;
 
   @OneToMany(mappedBy = "bidder", cascade = CascadeType.ALL)
   @LazyCollection(LazyCollectionOption.FALSE)
-  private List<Bid> bids;
+  private Set<Bid> bids;
 
   public UserEntity(String username, String email, String password) {
     this.username = username;
