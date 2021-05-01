@@ -5,10 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.LoginRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterResponseDTO;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.UserTokenDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterResponseDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.UserTokenDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.repositories.UserRepository;
 import org.junit.Assert;
@@ -43,7 +43,7 @@ public class UserServiceTest {
 
     Assert.assertEquals("zdenek", result.getUsername());
     Assert.assertEquals("password", result.getPassword());
-    Assert.assertEquals(0l, result.getBalance().longValue());
+    Assert.assertEquals(0L, result.getBalance().longValue());
   }
 
   @Test(expected = RuntimeException.class)
@@ -71,10 +71,10 @@ public class UserServiceTest {
 
   @Test
   public void convertUserToRegisterResponseDTO_returnsCorrectResponseDTO() {
-   UserEntity user = UserFactory.createDefaultZdenekUser();
+    UserEntity user = UserFactory.createDefaultZdenekUser();
 
     RegisterResponseDTO savedUser = userService.convertUserToRegisterResponseDTO(user);
-    Assert.assertEquals(1l, savedUser.getId().longValue());
+    Assert.assertEquals(1L, savedUser.getId().longValue());
     Assert.assertEquals("zdenek", savedUser.getUsername());
     Assert.assertEquals("zdenek@seznam.cz", savedUser.getEmail());
   }

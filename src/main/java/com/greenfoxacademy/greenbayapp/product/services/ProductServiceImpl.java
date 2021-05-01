@@ -1,7 +1,7 @@
 package com.greenfoxacademy.greenbayapp.product.services;
 
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductRequestDTO;
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.repositories.ProductRepository;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
   ProductRepository productRepository;
 
   @Override

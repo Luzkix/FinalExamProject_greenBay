@@ -1,4 +1,4 @@
-package com.greenfoxacademy.greenbayapp.product.models.DTO;
+package com.greenfoxacademy.greenbayapp.product.models.dtos;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

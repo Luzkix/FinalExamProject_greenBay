@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.greenbayapp.TestNoSecurityConfig;
 import com.greenfoxacademy.greenbayapp.factories.AuthFactory;
 import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductRequestDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

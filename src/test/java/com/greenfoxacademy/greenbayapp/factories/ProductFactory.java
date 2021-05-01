@@ -1,7 +1,7 @@
 package com.greenfoxacademy.greenbayapp.factories;
 
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductRequestDTO;
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import java.time.LocalDateTime;
@@ -51,18 +51,19 @@ public class ProductFactory {
     soldProduct.setBuyer(buyer);
     return soldProduct;
   }
+
   public static Product createDefaultUnsoldProductFromZdenek() {
     UserEntity user = UserFactory.createDefaultZdenekUser();
-    return createDefaultUnsoldProduct(1l, user);
+    return createDefaultUnsoldProduct(1L, user);
   }
 
   public static Product createDefaultSoldProductFromZdenekToPetr() {
     UserEntity zdenek = UserFactory.createDefaultZdenekUser();
     UserEntity petr = UserFactory.createDefaultPetrUser();
-    return createDefaultSoldProduct(1l, zdenek, petr);
+    return createDefaultSoldProduct(1L, zdenek, petr);
   }
 
-  public static NewProductRequestDTO createProductRequestDTO (String name, String description, String photoUrl,
+  public static NewProductRequestDTO createProductRequestDTO(String name, String description, String photoUrl,
                                                               Integer startingPrice, Integer purchasePrice) {
     NewProductRequestDTO requestDTO = new NewProductRequestDTO();
     requestDTO.setName(name);
@@ -82,9 +83,9 @@ public class ProductFactory {
         500);
   }
 
-  public static NewProductResponseDTO createProductResponseDTO (Long id, String name, String description, String photoUrl,
-                                                              Integer startingPrice, Integer purchasePrice,
-                                                               LocalDateTime enlistingTime, String sellerName) {
+  public static NewProductResponseDTO createProductResponseDTO(
+      Long id, String name, String description, String photoUrl, Integer startingPrice,
+       Integer purchasePrice, LocalDateTime enlistingTime, String sellerName) {
     NewProductResponseDTO responseDTO = new NewProductResponseDTO();
     responseDTO.setId(id);
     responseDTO.setName(name);
@@ -97,10 +98,10 @@ public class ProductFactory {
     return responseDTO;
   }
 
-  public static NewProductResponseDTO createDefaultProductResponseDTO_sellerZdenek(){
+  public static NewProductResponseDTO createDefaultProductResponseDTO_sellerZdenek() {
     UserEntity zdenek = UserFactory.createDefaultZdenekUser();
     return createProductResponseDTO(
-        1l,
+        1L,
         "car",
         "blue car",
         "http://localhost:8080",

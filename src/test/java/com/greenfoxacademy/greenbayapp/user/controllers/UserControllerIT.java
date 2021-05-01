@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.greenbayapp.TestNoSecurityConfig;
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.LoginRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterRequestDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

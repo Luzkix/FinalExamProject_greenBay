@@ -1,8 +1,8 @@
 package com.greenfoxacademy.greenbayapp.user.controllers;
 
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterResponseDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterResponseDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.services.UserService;
 import org.junit.Assert;
@@ -23,9 +23,9 @@ public class UserControllerTest {
   }
 
   @Test
-  public void registerUserShouldReturn201StatusCode(){
+  public void registerUserShouldReturn201StatusCode() {
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
-    RegisterResponseDTO responseDTO = new RegisterResponseDTO(1l,"zdenek","test@seznam.cz");
+    RegisterResponseDTO responseDTO = new RegisterResponseDTO(1L,"zdenek","test@seznam.cz");
     UserEntity newUser = UserFactory.createDefaultZdenekUser();
 
     Mockito.when(userService.registerNewUser(dto)).thenReturn(newUser);
@@ -34,13 +34,13 @@ public class UserControllerTest {
     ResponseEntity<?> response = userController.registerUser(dto);
 
     Assert.assertEquals(201, response.getStatusCodeValue());
-    Assert.assertEquals(1l, ((RegisterResponseDTO)response.getBody()).getId().longValue());
+    Assert.assertEquals(1L, ((RegisterResponseDTO)response.getBody()).getId().longValue());
     Assert.assertEquals("zdenek", ((RegisterResponseDTO)response.getBody()).getUsername());
     Assert.assertEquals("test@seznam.cz", ((RegisterResponseDTO)response.getBody()).getEmail());
   }
 
   @Test(expected = RuntimeException.class)
-  public void registerUserShouldThrowRuntimeException(){
+  public void registerUserShouldThrowRuntimeException() {
     RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
 
     Mockito.when(userService.registerNewUser(dto)).thenThrow(RuntimeException.class);

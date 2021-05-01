@@ -25,11 +25,17 @@ public class CustomUserDetails implements UserDetails {
     return user;
   }
 
-  public void setUser(UserEntity user) { this.user = user;}
+  public void setUser(UserEntity user) {
+    this.user = user;
+  }
 
-  public void setUsername(String username) { this.username = username; };
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-  public void setPassword(String password) { this.password = password; };
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
   @Override
   public Collection<GrantedAuthority> getAuthorities() {

@@ -1,7 +1,7 @@
 package com.greenfoxacademy.greenbayapp.product.controllers;
 
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductRequestDTO;
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.services.ProductService;
 import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;

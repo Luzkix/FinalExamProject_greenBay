@@ -1,8 +1,8 @@
 package com.greenfoxacademy.greenbayapp.user.controllers;
 
 import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.LoginRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.DTO.RegisterRequestDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.services.UserService;
 import javax.validation.Valid;
@@ -25,8 +25,8 @@ public class UserController {
   @PostMapping (REGISTER)
   public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterRequestDTO registerRequestDTO)
       throws RuntimeException {
-  UserEntity newUser = userService.registerNewUser(registerRequestDTO);
-  return ResponseEntity.status(HttpStatus.valueOf(201))
+    UserEntity newUser = userService.registerNewUser(registerRequestDTO);
+    return ResponseEntity.status(HttpStatus.valueOf(201))
       .body(userService.convertUserToRegisterResponseDTO(newUser));
   }
 

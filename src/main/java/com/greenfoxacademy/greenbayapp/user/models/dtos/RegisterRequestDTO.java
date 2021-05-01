@@ -1,4 +1,4 @@
-package com.greenfoxacademy.greenbayapp.user.models.DTO;
+package com.greenfoxacademy.greenbayapp.user.models.dtos;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -1,6 +1,7 @@
 package com.greenfoxacademy.greenbayapp.globalexceptionhandling;
 
-import com.greenfoxacademy.greenbayapp.globalexceptionhandling.DTO.ErrorDTO;
+
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.dtos.ErrorDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         .map(each -> each + " ")
         .collect(Collectors.joining());
 
-    return result.substring(0,result.length()-1);
+    return result.substring(0,result.length() - 1);
   }
 
   @ExceptionHandler(RuntimeException.class)

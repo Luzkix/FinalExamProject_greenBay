@@ -1,4 +1,4 @@
-package com.greenfoxacademy.greenbayapp.product.models.DTO;
+package com.greenfoxacademy.greenbayapp.product.models.dtos;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

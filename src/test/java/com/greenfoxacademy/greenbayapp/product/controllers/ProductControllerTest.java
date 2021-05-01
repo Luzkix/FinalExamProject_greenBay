@@ -2,8 +2,8 @@ package com.greenfoxacademy.greenbayapp.product.controllers;
 
 import com.greenfoxacademy.greenbayapp.factories.AuthFactory;
 import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductRequestDTO;
-import com.greenfoxacademy.greenbayapp.product.models.DTO.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import org.junit.Assert;

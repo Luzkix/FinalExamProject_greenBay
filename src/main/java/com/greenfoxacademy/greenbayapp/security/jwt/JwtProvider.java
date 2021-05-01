@@ -22,7 +22,8 @@ public class JwtProvider {
   private int jwtExpireDays;
 
   public String generateToken(UserEntity user) {
-    Date expirationDate = Date.from(LocalDate.now().plusDays(jwtExpireDays).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    Date expirationDate = Date.from(LocalDate.now().plusDays(jwtExpireDays)
+        .atStartOfDay(ZoneId.systemDefault()).toInstant());
 
     HashMap<String, Object> claims = new HashMap<>();
     claims.put("username",user.getUsername());
@@ -36,7 +37,7 @@ public class JwtProvider {
     return token;
   }
 
-  public Boolean validateToken(String token) throws Exception{
+  public Boolean validateToken(String token) throws Exception {
     Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
     return true;
   }
