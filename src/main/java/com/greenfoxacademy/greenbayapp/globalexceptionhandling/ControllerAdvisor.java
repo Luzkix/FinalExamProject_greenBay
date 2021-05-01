@@ -58,4 +58,12 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     log.error(ex.getMessage());
     return new ResponseEntity<>(new ErrorDTO(ex.getMessage()), status);
   }
+
+  @ExceptionHandler({
+      InvalidInputException.class,
+  })
+  public ResponseEntity<ErrorDTO> handleNotAcceptableExceptions(Exception ex) {
+    log.error(ex.getMessage());
+    return new ResponseEntity<>(new ErrorDTO(ex.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+  }
 }
