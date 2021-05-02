@@ -5,11 +5,11 @@ import static org.mockito.ArgumentMatchers.any;
 
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
+import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterResponseDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.UserTokenDTO;
-import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.repositories.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,8 +33,8 @@ public class UserServiceTest {
 
   @Test
   public void registerNewUserReturnsCorrectUser() {
-    RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
-    UserEntity savedUser = UserFactory.createDefaultZdenekUser();
+    RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
+    UserEntity savedUser = UserFactory.createUser_defaultUserZdenek();
     Mockito.when(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(dto.getUsername(),dto.getEmail()))
         .thenReturn(false);
     Mockito.doReturn(savedUser).when(userService).saveNewUser(dto);
@@ -48,7 +48,7 @@ public class UserServiceTest {
 
   @Test(expected = RuntimeException.class)
   public void registerUserThrowsNewRuntimeException() {
-    RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
+    RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
     Mockito.when(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(dto.getUsername(), dto.getEmail()))
         .thenThrow(RuntimeException.class);
 
@@ -57,8 +57,8 @@ public class UserServiceTest {
 
   @Test
   public void saveNewUserReturnsCorrectUser() {
-    RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
-    UserEntity newUser = UserFactory.createDefaultZdenekUser();
+    RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
+    UserEntity newUser = UserFactory.createUser_defaultUserZdenek();
     Mockito.when(passwordEncoder.encode(dto.getPassword())).thenReturn("password");
     Mockito.when(userRepository.save(any())).thenReturn(newUser);
 
@@ -71,7 +71,7 @@ public class UserServiceTest {
 
   @Test
   public void convertUserToRegisterResponseDTO_returnsCorrectResponseDTO() {
-    UserEntity user = UserFactory.createDefaultZdenekUser();
+    UserEntity user = UserFactory.createUser_defaultUserZdenek();
 
     RegisterResponseDTO savedUser = userService.convertUserToRegisterResponseDTO(user);
     Assert.assertEquals(1L, savedUser.getId().longValue());
@@ -81,8 +81,8 @@ public class UserServiceTest {
 
   @Test
   public void loginPlayer_returnsToken() {
-    LoginRequestDTO request = UserFactory.createDefaultLoginDTO();
-    UserEntity loggedUser = UserFactory.createDefaultZdenekUser();
+    LoginRequestDTO request = UserFactory.createLoginRequestDTO_defaultDTO();
+    UserEntity loggedUser = UserFactory.createUser_defaultUserZdenek();
     Mockito.doReturn(loggedUser).when(userService).findUserByNameAndPassword(request.getUsername(),
         request.getPassword());
     Mockito.when(jwtProvider.generateToken(loggedUser)).thenReturn("createdToken");
@@ -95,7 +95,7 @@ public class UserServiceTest {
 
   @Test(expected = RuntimeException.class)
   public void loginPlayer_throwsRuntimeException() {
-    LoginRequestDTO request = UserFactory.createDefaultLoginDTO();
+    LoginRequestDTO request = UserFactory.createLoginRequestDTO_defaultDTO();
     Mockito.doReturn(null).when(userService).findUserByNameAndPassword(request.getUsername(),
         request.getPassword());
 

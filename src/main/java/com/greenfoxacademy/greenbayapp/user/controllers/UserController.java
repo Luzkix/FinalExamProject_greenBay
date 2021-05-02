@@ -1,9 +1,9 @@
 package com.greenfoxacademy.greenbayapp.user.controllers;
 
 import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
+import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.services.UserService;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;

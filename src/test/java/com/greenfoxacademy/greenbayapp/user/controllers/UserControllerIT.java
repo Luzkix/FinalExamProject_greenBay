@@ -36,7 +36,7 @@ public class UserControllerIT {
 
   @Test
   public void registerUserShouldReturnStatus201() throws Exception {
-    RegisterRequestDTO dto = UserFactory.createRegisterDTO("zdenek2","test2@seznam.cz","password");
+    RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO("zdenek2","test2@seznam.cz","password");
     String requestJson = new ObjectMapper().writeValueAsString(dto);
 
     mockMvc.perform(post(UserController.REGISTER)
@@ -48,7 +48,7 @@ public class UserControllerIT {
 
   @Test
   public void registerUserShouldReturnStatus406() throws Exception {
-    RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
+    RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
     dto.setPassword("12");
     String requestJson = new ObjectMapper().writeValueAsString(dto);
 
@@ -63,7 +63,7 @@ public class UserControllerIT {
 
   @Test
   public void registerUser_wrongEmailFormat_ShouldReturnStatus400() throws Exception {
-    RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
+    RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
     dto.setEmail("testgreen.cz");
     String requestJson = new ObjectMapper().writeValueAsString(dto);
 
@@ -78,7 +78,7 @@ public class UserControllerIT {
 
   @Test
   public void registerUser_notSetUsernameNorEmail_ShouldReturnStatus400() throws Exception {
-    RegisterRequestDTO dto = UserFactory.createDefaultRegisterDTO();
+    RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
     dto.setUsername("");
     dto.setEmail("");
     String requestJson = new ObjectMapper().writeValueAsString(dto);
@@ -95,7 +95,7 @@ public class UserControllerIT {
 
   @Test
   public void loginUserShouldReturnStatus200() throws Exception {
-    LoginRequestDTO dto = UserFactory.createDefaultLoginDTO();
+    LoginRequestDTO dto = UserFactory.createLoginRequestDTO_defaultDTO();
     String requestJson = new ObjectMapper().writeValueAsString(dto);
 
     mockMvc.perform(post(UserController.LOGIN)
@@ -108,7 +108,7 @@ public class UserControllerIT {
 
   @Test
   public void loginUser_WrongName_ShouldReturnStatus401() throws Exception {
-    LoginRequestDTO dto = UserFactory.createDefaultLoginDTO();
+    LoginRequestDTO dto = UserFactory.createLoginRequestDTO_defaultDTO();
     dto.setUsername("wrongUsername");
     String requestJson = new ObjectMapper().writeValueAsString(dto);
 

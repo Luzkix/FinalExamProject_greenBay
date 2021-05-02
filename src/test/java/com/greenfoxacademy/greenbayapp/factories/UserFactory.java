@@ -1,8 +1,8 @@
 package com.greenfoxacademy.greenbayapp.factories;
 
+import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
-import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 
 public class UserFactory {
   public static UserEntity createUser(
@@ -13,7 +13,7 @@ public class UserFactory {
     return user;
   }
 
-  public static UserEntity createDefaultUser(Long id, String username) {
+  public static UserEntity createUser_defaultUser(Long id, String username) {
     return createUser(
         id,
         username,
@@ -22,47 +22,47 @@ public class UserFactory {
         0);
   }
 
-  public static UserEntity createDefaultZdenekUser() {
-    return createDefaultUser(
+  public static UserEntity createUser_defaultUserZdenek() {
+    return createUser_defaultUser(
         1L,
         "zdenek");
   }
 
-  public static UserEntity createDefaultPetrUser() {
-    return createDefaultUserWithBalance(
+  public static UserEntity createUser_defaultUserPetr() {
+    return createUser_defaultUser_withBalance(
         2L,
         "petr",
         1000);
   }
 
-  public static UserEntity createDefaultUserWithBalance(Long id, String username, int balance) {
-    UserEntity user = createDefaultUser(id, username);
+  public static UserEntity createUser_defaultUser_withBalance(Long id, String username, int balance) {
+    UserEntity user = createUser_defaultUser(id, username);
     user.setBalance(balance);
     return user;
   }
 
-  public static RegisterRequestDTO createRegisterDTO(String username, String email, String password) {
+  public static RegisterRequestDTO createRegisterRequestDTO(String username, String email, String password) {
     return new RegisterRequestDTO(
         username,
         email,
         password);
   }
 
-  public static RegisterRequestDTO createDefaultRegisterDTO() {
-    return createRegisterDTO(
+  public static RegisterRequestDTO createRegisterRequestDTO_defaultDTO() {
+    return createRegisterRequestDTO(
         "zdenek",
         "test@seznam.cz",
         "password");
   }
 
-  public static LoginRequestDTO createLoginDTO(String username, String password) {
+  public static LoginRequestDTO createLoginRequestDTO(String username, String password) {
     return new LoginRequestDTO(
         username,
         password);
   }
 
-  public static LoginRequestDTO createDefaultLoginDTO() {
-    return createLoginDTO(
+  public static LoginRequestDTO createLoginRequestDTO_defaultDTO() {
+    return createLoginRequestDTO(
         "zdenek",
         "password");
   }

@@ -1,8 +1,8 @@
 package com.greenfoxacademy.greenbayapp.factories;
 
+import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
-import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class ProductFactory {
     return product;
   }
 
-  public static Product createDefaultUnsoldProduct(Long productId, UserEntity seller) {
+  public static Product createProduct_defaultUnsoldProduct(Long productId, UserEntity seller) {
     return createProduct(
         productId,
         "car",
@@ -45,8 +45,8 @@ public class ProductFactory {
         null);
   }
 
-  public static Product createDefaultSoldProduct(Long productId, UserEntity seller, UserEntity buyer) {
-    Product soldProduct = createDefaultUnsoldProduct(productId, seller);
+  public static Product createProduct_defaultSoldProduct(Long productId, UserEntity seller, UserEntity buyer) {
+    Product soldProduct = createProduct_defaultUnsoldProduct(productId, seller);
     soldProduct.setSold(true);
     soldProduct.setSoldPrice(600);
     soldProduct.setSoldTime(LocalDateTime.parse("2022-04-30T23:16:02.462664400"));
@@ -54,19 +54,19 @@ public class ProductFactory {
     return soldProduct;
   }
 
-  public static Product createDefaultUnsoldProductFromZdenek() {
-    UserEntity user = UserFactory.createDefaultZdenekUser();
-    return createDefaultUnsoldProduct(1L, user);
+  public static Product createProduct_defaultUnsoldProductFromZdenek() {
+    UserEntity user = UserFactory.createUser_defaultUserZdenek();
+    return createProduct_defaultUnsoldProduct(1L, user);
   }
 
-  public static Product createDefaultSoldProductFromZdenekToPetr() {
-    UserEntity zdenek = UserFactory.createDefaultZdenekUser();
-    UserEntity petr = UserFactory.createDefaultPetrUser();
-    return createDefaultSoldProduct(1L, zdenek, petr);
+  public static Product createProduct_defaultSoldProductFromZdenekToPetr() {
+    UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
+    UserEntity petr = UserFactory.createUser_defaultUserPetr();
+    return createProduct_defaultSoldProduct(1L, zdenek, petr);
   }
 
-  public static NewProductRequestDTO createProductRequestDTO(String name, String description, String photoUrl,
-                                                              Integer startingPrice, Integer purchasePrice) {
+  public static NewProductRequestDTO createNewProductRequestDTO(String name, String description, String photoUrl,
+                                                                Integer startingPrice, Integer purchasePrice) {
     NewProductRequestDTO requestDTO = new NewProductRequestDTO();
     requestDTO.setName(name);
     requestDTO.setDescription(description);
@@ -76,8 +76,8 @@ public class ProductFactory {
     return requestDTO;
   }
 
-  public static NewProductRequestDTO createDefaultProductRequestDTO() {
-    return createProductRequestDTO(
+  public static NewProductRequestDTO createNewProductRequestDTO_defaultDTO() {
+    return createNewProductRequestDTO(
         "car",
         "blue car",
         "http://localhost:8080",
@@ -85,7 +85,7 @@ public class ProductFactory {
         500);
   }
 
-  public static NewProductResponseDTO createProductResponseDTO(
+  public static NewProductResponseDTO createNewProductResponseDTO(
       Long id, String name, String description, String photoUrl, Integer startingPrice,
        Integer purchasePrice, LocalDateTime enlistingTime, String sellerName) {
     NewProductResponseDTO responseDTO = new NewProductResponseDTO();
@@ -100,9 +100,9 @@ public class ProductFactory {
     return responseDTO;
   }
 
-  public static NewProductResponseDTO createDefaultProductResponseDTO_sellerZdenek() {
-    UserEntity zdenek = UserFactory.createDefaultZdenekUser();
-    return createProductResponseDTO(
+  public static NewProductResponseDTO createNewProductResponseDTO_defaultDTO_sellerZdenek() {
+    UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
+    return createNewProductResponseDTO(
         1L,
         "car",
         "blue car",
@@ -113,9 +113,9 @@ public class ProductFactory {
         zdenek.getUsername());
   }
 
-  public static UnsoldProductDTO createDefaultUnsoldProductDTOfromZdenek(Long productId) {
-    UserEntity zdenek = UserFactory.createDefaultZdenekUser();
-    Product product = ProductFactory.createDefaultUnsoldProduct(productId,zdenek);
+  public static UnsoldProductDTO createUnsoldProductDTO_defaultDTO_sellerZdenek(Long productId) {
+    UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
+    Product product = ProductFactory.createProduct_defaultUnsoldProduct(productId,zdenek);
     UnsoldProductDTO unsoldProductDTO = new UnsoldProductDTO();
     BeanUtils.copyProperties(product, unsoldProductDTO);
     return unsoldProductDTO;

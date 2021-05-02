@@ -7,18 +7,16 @@ import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductsResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.services.ProductService;
 import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-
-import com.greenfoxacademy.greenbayapp.product.services.ProductService;
-import org.junit.Before;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 
@@ -30,17 +28,17 @@ public class ProductControllerTest {
 
   @Before
   public void setUp() {
-    auth = AuthFactory.createZdenekAuth();
+    auth = AuthFactory.createAuth_userZdenek();
     productService = Mockito.mock(ProductService.class);
     productController = new ProductController(productService);
   }
 
   @Test
   public void postNewProduct_returnsCorrectStatusCodeAndProductNameAndSellerName() {
-    NewProductRequestDTO request = ProductFactory.createDefaultProductRequestDTO();
+    NewProductRequestDTO request = ProductFactory.createNewProductRequestDTO_defaultDTO();
     UserEntity user = ((CustomUserDetails)auth.getPrincipal()).getUser();
     Mockito.when(productService.postNewProduct(request,user))
-        .thenReturn(ProductFactory.createDefaultProductResponseDTO_sellerZdenek());
+        .thenReturn(ProductFactory.createNewProductResponseDTO_defaultDTO_sellerZdenek());
 
     ResponseEntity<?> response = productController.postNewProduct(request,auth);
 
@@ -53,9 +51,9 @@ public class ProductControllerTest {
   public void getSellableProducts_returnsCorrectStatusCodeAndUnsoldProductsResponseDTO() {
     List<UnsoldProductDTO> unsoldProducts = new ArrayList<>();
     unsoldProducts.addAll(Arrays.asList(
-        ProductFactory.createDefaultUnsoldProductDTOfromZdenek(1L),
-        ProductFactory.createDefaultUnsoldProductDTOfromZdenek(2L),
-        ProductFactory.createDefaultUnsoldProductDTOfromZdenek(3L)));
+        ProductFactory.createUnsoldProductDTO_defaultDTO_sellerZdenek(1L),
+        ProductFactory.createUnsoldProductDTO_defaultDTO_sellerZdenek(2L),
+        ProductFactory.createUnsoldProductDTO_defaultDTO_sellerZdenek(3L)));
     UnsoldProductsResponseDTO responseDTO = new UnsoldProductsResponseDTO(unsoldProducts);
 
     Mockito.when(productService.filterUnsoldProducts(1)).thenReturn(responseDTO);
@@ -68,7 +66,6 @@ public class ProductControllerTest {
 
   @Test(expected = InvalidInputException.class)
   public void getSellableProducts_throwsInvalidInputException() {
-
     ResponseEntity<?> response = productController.getSellableProducts(-1,auth);
   }
 
