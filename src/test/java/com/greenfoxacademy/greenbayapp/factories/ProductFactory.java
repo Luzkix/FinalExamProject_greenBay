@@ -3,8 +3,10 @@ package com.greenfoxacademy.greenbayapp.factories;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import java.time.LocalDateTime;
+import org.springframework.beans.BeanUtils;
 
 public class ProductFactory {
   public static Product createProduct(Long id, String name, String description, String photoUrl,
@@ -111,6 +113,13 @@ public class ProductFactory {
         zdenek.getUsername());
   }
 
+  public static UnsoldProductDTO createDefaultUnsoldProductDTOfromZdenek(Long productId) {
+    UserEntity zdenek = UserFactory.createDefaultZdenekUser();
+    Product product = ProductFactory.createDefaultUnsoldProduct(productId,zdenek);
+    UnsoldProductDTO unsoldProductDTO = new UnsoldProductDTO();
+    BeanUtils.copyProperties(product, unsoldProductDTO);
+    return unsoldProductDTO;
+  }
 
 
 }

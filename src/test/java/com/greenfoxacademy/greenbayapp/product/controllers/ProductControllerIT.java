@@ -1,6 +1,7 @@
 package com.greenfoxacademy.greenbayapp.product.controllers;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -104,5 +105,60 @@ public class ProductControllerIT {
         .andExpect(status().is(400))
         .andExpect(jsonPath("$.message",containsString("Item name can´t be empty!")))
         .andExpect(jsonPath("$.message",containsString("Starting price must be > 0!")));
+  }
+
+  @Test
+  public void getSellableProducts_noParamsSet_returnsDefaultXproductsFromPage1AndStatus200() throws Exception {
+    mockMvc.perform(get(ProductController.ACTIVE_DEALS_URI)
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(200))
+        .andExpect(jsonPath("$.unsoldProducts[0].id", is(1)))
+        .andExpect(jsonPath("$.unsoldProducts[0].name", is("car1")))
+        .andExpect(jsonPath("$.unsoldProducts[4].id", is(5)))
+        .andExpect(jsonPath("$.unsoldProducts[4].name", is("bike1")))
+        .andExpect(jsonPath("$.unsoldProducts[5]").doesNotExist());
+  }
+
+  @Test
+  public void getSellableProducts_pageIsSetTo1_returnsDefaultXproductsFromPage1AndStatus200() throws Exception {
+    mockMvc.perform(get(ProductController.ACTIVE_DEALS_URI)
+        .param("page","1")
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(200))
+        .andExpect(jsonPath("$.unsoldProducts[0].id", is(1)))
+        .andExpect(jsonPath("$.unsoldProducts[0].name", is("car1")))
+        .andExpect(jsonPath("$.unsoldProducts[4].id", is(5)))
+        .andExpect(jsonPath("$.unsoldProducts[4].name", is("bike1")))
+        .andExpect(jsonPath("$.unsoldProducts[5]").doesNotExist());
+  }
+
+  @Test
+  public void getSellableProducts_pageIsSetTo2_returnsDefaultXproductsFromPage2AndStatus200() throws Exception {
+    mockMvc.perform(get(ProductController.ACTIVE_DEALS_URI)
+        .param("page","2")
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(200))
+        .andExpect(jsonPath("$.unsoldProducts[0].id", is(6)))
+        .andExpect(jsonPath("$.unsoldProducts[0].name", is("bike2")))
+        .andExpect(jsonPath("$.unsoldProducts[1]").doesNotExist());
+  }
+
+  @Test
+  public void getSellableProducts_pageIsSetToNegativeNumber_returnsErrorMsgAndStatus406() throws Exception {
+    mockMvc.perform(get(ProductController.ACTIVE_DEALS_URI)
+        .param("page","-2")
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(406))
+        .andExpect(jsonPath("$.unsoldProducts").doesNotExist())
+        .andExpect(jsonPath("$.status", is("error")))
+        .andExpect(jsonPath("$.message", is("Invalid page number! Page must be > 0!")));
   }
 }

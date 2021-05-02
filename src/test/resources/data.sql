@@ -8,21 +8,27 @@ VALUES (1, 0, 'zdenek@seznam.cz', '$2a$10$NaD84OJw/IJCe6jExv21Reah0hCOgZDhp1N8D.
 INSERT INTO users (id, balance, email, password, username)
 VALUES (2, 1000, 'petr@seznam.cz', '$2a$10$NaD84OJw/IJCe6jExv21Reah0hCOgZDhp1N8D.ovKHeKtAYzevcQG', 'petr');
 
+/*Zdenek´s products (4products)*/
 INSERT INTO products (id, description, enlisting_time, name, photo_url, purchase_price, sold, sold_price, sold_time,
                       starting_price, buyer_id, seller_id)
-VALUES (1, 'blue car', '2021-04-29 21:31:10', 'car1', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
+VALUES (1, 'blue car', '2021-05-01T17:39:55', 'car1', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
 INSERT INTO products (id, description, enlisting_time, name, photo_url, purchase_price, sold, sold_price, sold_time,
                       starting_price, buyer_id, seller_id)
-VALUES (2, 'blue car', '2021-04-29 22:31:10', 'car2', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
+VALUES (2, 'blue car', '2021-05-01T18:39:55', 'car2', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
 INSERT INTO products (id, description, enlisting_time, name, photo_url, purchase_price, sold, sold_price, sold_time,
                       starting_price, buyer_id, seller_id)
-VALUES (3, 'blue car', '2021-04-29 23:31:10', 'car3', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
+VALUES (3, 'blue car', '2021-05-01T19:39:55', 'car3', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
 INSERT INTO products (id, description, enlisting_time, name, photo_url, purchase_price, sold, sold_price, sold_time,
                       starting_price, buyer_id, seller_id)
-VALUES (4, 'blue car', '2021-04-29 24:31:10', 'car4', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
+VALUES (4, 'blue car', '2021-05-01T20:39:55', 'car4', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
+
+/*Peter´s products (3products)*/
 INSERT INTO products (id, description, enlisting_time, name, photo_url, purchase_price, sold, sold_price, sold_time,
                       starting_price, buyer_id, seller_id)
-VALUES (5, 'blue car', '2021-04-29 25:31:10', 'car5', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
+VALUES (5, 'blue bike', '2021-05-01T21:39:55', 'bike1', 'http://localhost:8080', 100, false, null, null, 50, null, 2);
 INSERT INTO products (id, description, enlisting_time, name, photo_url, purchase_price, sold, sold_price, sold_time,
                       starting_price, buyer_id, seller_id)
-VALUES (6, 'blue car', '2021-04-29 26:31:10', 'car6', 'http://localhost:8080', 500, false, null, null, 100, null, 1);
+VALUES (6, 'blue bike', '2021-05-01T22:39:55', 'bike2', 'http://localhost:8080', 100, false, null, null, 50, null, 2);
+INSERT INTO products (id, description, enlisting_time, name, photo_url, purchase_price, sold, sold_price, sold_time,
+                      starting_price, buyer_id, seller_id)
+VALUES (7, 'sold bike', '2021-05-01T23:39:55', 'bike3', 'http://localhost:8080', 100, true, 100, '2021-06-01T08:00:00', 50, 1, 2);
