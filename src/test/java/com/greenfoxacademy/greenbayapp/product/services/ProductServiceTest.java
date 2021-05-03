@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 public class ProductServiceTest {
   private ProductServiceImpl productService;

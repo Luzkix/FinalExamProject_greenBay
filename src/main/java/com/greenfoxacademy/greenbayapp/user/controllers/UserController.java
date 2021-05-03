@@ -32,7 +32,8 @@ public class UserController {
   }
 
   @PostMapping (LOGIN)
-  public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO) throws AuthorizationException {
+  public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO)
+      throws AuthorizationException {
     return ResponseEntity.ok(userService.loginPlayer(loginRequestDTO));
   }
 
