@@ -1,6 +1,5 @@
 package com.greenfoxacademy.greenbayapp.product.services;
 
-import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
 import com.greenfoxacademy.greenbayapp.bid.services.BidService;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
@@ -77,12 +76,12 @@ public class ProductServiceImpl implements ProductService {
     if (!product.getSeller().getId().equals(user.getId()))
       throw new AuthorizationException("Not authorized to view details of selected item!");
 
-    ProductDetailsResponseDTO response = transformProductIntoProductDetailsResponseDTO(product);
+    ProductDetailsResponseDTO response = convertProductIntoProductDetailsResponseDTO(product);
 
     return response;
   }
 
-  public ProductDetailsResponseDTO transformProductIntoProductDetailsResponseDTO(Product product) {
+  public ProductDetailsResponseDTO convertProductIntoProductDetailsResponseDTO(Product product) {
     ProductDetailsResponseDTO response = new ProductDetailsResponseDTO();
 
     BeanUtils.copyProperties(product,response);
@@ -95,14 +94,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     if (product.getBids() != null) {
-      List<BidDetailsDTO> bids = new ArrayList<>();
-      bids = bidService.transformSetOfBidsIntoListOfBidDetailDTOs(product.getBids());
-      response.setBids(bids);
+      response.setBids(bidService.convertSetOfBidsIntoListOfBidDetailDTOs(product.getBids()));
     }
 
     return response;
   }
-
-
 
 }

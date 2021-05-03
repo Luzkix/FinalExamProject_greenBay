@@ -17,7 +17,7 @@ public class BidServiceImpl implements BidService {
   private BidRepository bidRepository;
 
   @Override
-  public BidDetailsDTO transformBidIntoBidDetailsDTO(Bid bid) {
+  public BidDetailsDTO convertBidIntoBidDetailsDTO(Bid bid) {
     BidDetailsDTO dto = new BidDetailsDTO();
 
     BeanUtils.copyProperties(bid,dto);
@@ -30,9 +30,9 @@ public class BidServiceImpl implements BidService {
   }
 
   @Override
-  public List<BidDetailsDTO> transformSetOfBidsIntoListOfBidDetailDTOs(Set<Bid> bids) {
+  public List<BidDetailsDTO> convertSetOfBidsIntoListOfBidDetailDTOs(Set<Bid> bids) {
     return bids.stream()
-        .map(a -> transformBidIntoBidDetailsDTO(a))
+        .map(a -> convertBidIntoBidDetailsDTO(a))
         .sorted(Comparator.comparing(bid -> bid.getId()))
         .collect(Collectors.toList());
   }

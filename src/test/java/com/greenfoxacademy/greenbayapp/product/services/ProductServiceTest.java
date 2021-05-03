@@ -3,12 +3,17 @@ package com.greenfoxacademy.greenbayapp.product.services;
 import static org.mockito.ArgumentMatchers.any;
 
 
+import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
 import com.greenfoxacademy.greenbayapp.bid.services.BidService;
+import com.greenfoxacademy.greenbayapp.factories.BidFactory;
 import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.ProductDetailsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.repositories.ProductRepository;
@@ -21,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 public class ProductServiceTest {
   private ProductServiceImpl productService;
@@ -108,6 +114,72 @@ public class ProductServiceTest {
     Assert.assertTrue(products.get(0).getEnlistingTime() == result.getUnsoldProducts().get(0).getEnlistingTime());
     Assert.assertTrue(products.get(2).getId() == result.getUnsoldProducts().get(2).getId());
     Assert.assertTrue(products.get(2).getEnlistingTime() == result.getUnsoldProducts().get(2).getEnlistingTime());
+  }
+
+  @Test
+  public void convertProductIntoProductDetailsResponseDTO_sold_returnsCorrectProductDetailsResponseDTO() {
+    UserEntity sellerZdenek = UserFactory.createUser_defaultUserZdenek();
+    UserEntity buyerPetr = UserFactory.createUser_defaultUserPetr();
+    Product product = ProductFactory.createProduct_defaultSoldProduct(1L, sellerZdenek, buyerPetr);
+    product.setBids(BidFactory.createSetOfBids_3predefinedBids_sellerZdenek_buyerPetr());
+    List<BidDetailsDTO> bidsDetails = BidFactory.createListOfBidDetailsDTO_3predefinedBids_bidderPetr();
+
+    Mockito.when(bidService.convertSetOfBidsIntoListOfBidDetailDTOs(product.getBids())).thenReturn(bidsDetails);
+
+    ProductDetailsResponseDTO result = productService.convertProductIntoProductDetailsResponseDTO(product);
+
+    Assert.assertEquals(product.getId(), result.getId());
+    Assert.assertEquals(product.getSoldPrice(), result.getSoldPrice());
+    Assert.assertEquals(product.getSeller().getUsername(), result.getSellerName());
+    Assert.assertEquals(product.getBuyer().getUsername(), result.getBuyerName());
+    Assert.assertEquals(bidsDetails, result.getBids());
+  }
+
+  @Test
+  public void convertProductIntoProductDetailsResponseDTO_unsold_noBids_returnsCorrectProductDetailsResponseDTO() {
+    UserEntity sellerZdenek = UserFactory.createUser_defaultUserZdenek();
+    Product product = ProductFactory.createProduct_defaultUnsoldProduct(1L, sellerZdenek);
+
+    ProductDetailsResponseDTO result = productService.convertProductIntoProductDetailsResponseDTO(product);
+
+    Assert.assertEquals(product.getId(), result.getId());
+    Assert.assertEquals(null, result.getSoldPrice());
+    Assert.assertEquals(product.getSeller().getUsername(), result.getSellerName());
+    Assert.assertEquals(null, result.getBuyerName());
+    Assert.assertEquals(null, result.getBids());
+  }
+
+  @Test
+  public void getProductDetails_returnsCorrectResponseDTO() {
+    UserEntity user = UserFactory.createUser_defaultUserZdenek();
+    Product product = ProductFactory.createProduct_defaultSoldProductFromZdenekToPetr();
+    Mockito.when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
+
+    List<BidDetailsDTO> bidsDetails = BidFactory.createListOfBidDetailsDTO_3predefinedBids_bidderPetr();
+    Mockito.when(bidService.convertSetOfBidsIntoListOfBidDetailDTOs(any())).thenReturn(bidsDetails);
+
+    ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
+
+    Assert.assertEquals(product.getId(), response.getId());
+    Assert.assertEquals(product.getSoldPrice(), response.getSoldPrice());
+    Assert.assertEquals(product.getSeller().getUsername(), response.getSellerName());
+    Assert.assertEquals(product.getBuyer().getUsername(), response.getBuyerName());
+  }
+
+  @Test(expected = InvalidInputException.class)
+  public void getProductDetails_returnsInvalidInputException() {
+    UserEntity user = UserFactory.createUser_defaultUserZdenek();
+
+    ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
+  }
+
+  @Test(expected = AuthorizationException.class)
+  public void getProductDetails_returnsAuthorizationException() {
+    UserEntity user = UserFactory.createUser_defaultUserPetr();
+    Product product = ProductFactory.createProduct_defaultSoldProductFromZdenekToPetr();
+    Mockito.when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
+
+    ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
   }
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface BidService {
-  BidDetailsDTO transformBidIntoBidDetailsDTO(Bid bid);
+  BidDetailsDTO convertBidIntoBidDetailsDTO(Bid bid);
 
-  List<BidDetailsDTO> transformSetOfBidsIntoListOfBidDetailDTOs(Set<Bid> bids);
+  List<BidDetailsDTO> convertSetOfBidsIntoListOfBidDetailDTOs(Set<Bid> bids);
 }
