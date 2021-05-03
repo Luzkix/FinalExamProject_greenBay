@@ -48,12 +48,13 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     return result.substring(0,result.length() - 1);
   }
 
-  @ExceptionHandler(RuntimeException.class)
-  public ResponseEntity<ErrorDTO> handleExceptions(RuntimeException ex) {
+  @ExceptionHandler({
+      AuthorizationException.class,
+  })
+  public ResponseEntity<ErrorDTO> handleAthorizationExceptions(Exception ex) {
     HttpStatus status = HttpStatus.UNAUTHORIZED;
 
     if (ex.getMessage().equals("Username or email is already taken!")) status = HttpStatus.CONFLICT;
-    if (ex.getMessage().equals("Username or password is incorrect!")) status = HttpStatus.UNAUTHORIZED;
 
     log.error(ex.getMessage());
     return new ResponseEntity<>(new ErrorDTO(ex.getMessage()), status);
@@ -62,8 +63,12 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
   @ExceptionHandler({
       InvalidInputException.class,
   })
-  public ResponseEntity<ErrorDTO> handleNotAcceptableExceptions(Exception ex) {
+  public ResponseEntity<ErrorDTO> handleIncorrectInputsExceptions(Exception ex) {
+    HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
+
+    if (ex.getMessage().equals("The item was not found!")) status = HttpStatus.NOT_FOUND;
+
     log.error(ex.getMessage());
-    return new ResponseEntity<>(new ErrorDTO(ex.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+    return new ResponseEntity<>(new ErrorDTO(ex.getMessage()), status);
   }
 }

@@ -25,6 +25,7 @@
   - Given the id of an existing sellable item, the application displays all information about the item
   - Given the id of an existing not sellable item, the application displays all information including the buyer's name
   - Given the id of a not existing item, the application displays a message that the item is not found
+  - *note: my implementation allows to return full details of only those items belonging to the user (== seller)*
 ### As a signed in user I can bid on a sellable item
   - Only if the bidding user have enough greenBay dollars
   - Given the id of a not existing item, the application displays a message that the item is not found

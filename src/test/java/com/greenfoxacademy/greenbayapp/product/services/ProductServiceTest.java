@@ -3,6 +3,7 @@ package com.greenfoxacademy.greenbayapp.product.services;
 import static org.mockito.ArgumentMatchers.any;
 
 
+import com.greenfoxacademy.greenbayapp.bid.services.BidService;
 import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
@@ -22,13 +23,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 public class ProductServiceTest {
-  ProductServiceImpl productService;
-  ProductRepository productRepository;
+  private ProductServiceImpl productService;
+  private ProductRepository productRepository;
+  private BidService bidService;
 
   @Before
   public void setUp() {
     productRepository = Mockito.mock(ProductRepository.class);
-    productService = Mockito.spy(new ProductServiceImpl(productRepository));
+    bidService = Mockito.mock(BidService.class);
+    productService = Mockito.spy(new ProductServiceImpl(productRepository, bidService));
   }
 
   @Test

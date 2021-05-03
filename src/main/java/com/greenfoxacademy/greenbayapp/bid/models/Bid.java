@@ -29,11 +29,14 @@ public class Bid {
   @NotNull
   private Integer bidPrice;
 
+  @NotNull
   private LocalDateTime bidTime;
 
+  @NotNull
   @ManyToOne
   private Product product;
 
+  @NotNull
   @ManyToOne
   private UserEntity bidder;
 

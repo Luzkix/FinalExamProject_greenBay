@@ -1,5 +1,6 @@
 package com.greenfoxacademy.greenbayapp.user.controllers;
 
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
@@ -24,20 +25,20 @@ public class UserController {
 
   @PostMapping (REGISTER)
   public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterRequestDTO registerRequestDTO)
-      throws RuntimeException {
+      throws AuthorizationException {
     UserEntity newUser = userService.registerNewUser(registerRequestDTO);
     return ResponseEntity.status(HttpStatus.valueOf(201))
       .body(userService.convertUserToRegisterResponseDTO(newUser));
   }
 
   @PostMapping (LOGIN)
-  public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO) throws RuntimeException {
+  public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO) throws AuthorizationException {
     return ResponseEntity.ok(userService.loginPlayer(loginRequestDTO));
   }
 
   //just for testing purposes of spring security - Authentication
   @GetMapping("/test")
-  public String showPassword(Authentication auth) throws RuntimeException {
+  public String showPassword(Authentication auth) throws AuthorizationException {
     UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
     return user.getPassword();
   }

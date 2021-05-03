@@ -1,8 +1,13 @@
 package com.greenfoxacademy.greenbayapp.product.services;
 
+import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
+import com.greenfoxacademy.greenbayapp.bid.services.BidService;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.ProductDetailsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.repositories.ProductRepository;
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
   private ProductRepository productRepository;
+  private BidService bidService;
 
   @Override
   public NewProductResponseDTO postNewProduct(NewProductRequestDTO request, UserEntity user) {
@@ -61,6 +67,42 @@ public class ProductServiceImpl implements ProductService {
     }
     return dtos;
   }
+
+  @Override
+  public ProductDetailsResponseDTO getProductDetails(Long id, UserEntity user)
+      throws InvalidInputException, AuthorizationException {
+    Product product = productRepository.findById(id).orElse(null);
+
+    if (product == null) throw new InvalidInputException("The item was not found!");
+    if (!product.getSeller().getId().equals(user.getId()))
+      throw new AuthorizationException("Not authorized to view details of selected item!");
+
+    ProductDetailsResponseDTO response = transformProductIntoProductDetailsResponseDTO(product);
+
+    return response;
+  }
+
+  public ProductDetailsResponseDTO transformProductIntoProductDetailsResponseDTO(Product product) {
+    ProductDetailsResponseDTO response = new ProductDetailsResponseDTO();
+
+    BeanUtils.copyProperties(product,response);
+    response.setSellerId(product.getSeller().getId());
+    response.setSellerName(product.getSeller().getUsername());
+
+    if (product.getBuyer() != null) {
+      response.setBuyerId(product.getBuyer().getId());
+      response.setBuyerName(product.getBuyer().getUsername());
+    }
+
+    if (product.getBids() != null) {
+      List<BidDetailsDTO> bids = new ArrayList<>();
+      bids = bidService.transformSetOfBidsIntoListOfBidDetailDTOs(product.getBids());
+      response.setBids(bids);
+    }
+
+    return response;
+  }
+
 
 
 }

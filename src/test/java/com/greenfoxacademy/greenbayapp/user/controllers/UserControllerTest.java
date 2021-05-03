@@ -1,6 +1,7 @@
 package com.greenfoxacademy.greenbayapp.user.controllers;
 
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterResponseDTO;
@@ -39,11 +40,11 @@ public class UserControllerTest {
     Assert.assertEquals("test@seznam.cz", ((RegisterResponseDTO)response.getBody()).getEmail());
   }
 
-  @Test(expected = RuntimeException.class)
-  public void registerUserShouldThrowRuntimeException() {
+  @Test(expected = AuthorizationException.class)
+  public void registerUserShouldThrowAuthorizationException() {
     RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
 
-    Mockito.when(userService.registerNewUser(dto)).thenThrow(RuntimeException.class);
+    Mockito.when(userService.registerNewUser(dto)).thenThrow(AuthorizationException.class);
 
     ResponseEntity<?> response = userController.registerUser(dto);
   }

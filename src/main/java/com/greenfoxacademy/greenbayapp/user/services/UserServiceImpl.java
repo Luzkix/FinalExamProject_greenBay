@@ -1,5 +1,6 @@
 package com.greenfoxacademy.greenbayapp.user.services;
 
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
@@ -20,11 +21,12 @@ public class UserServiceImpl implements UserService {
   private JwtProvider jwtProvider;
 
   @Override
-  public UserEntity registerNewUser(RegisterRequestDTO registerRequestDTO)  throws RuntimeException {
+  public UserEntity registerNewUser(RegisterRequestDTO registerRequestDTO)  throws
+      AuthorizationException {
     if (userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(
         registerRequestDTO.getUsername(),
         registerRequestDTO.getEmail())) {
-      throw new RuntimeException("Username or email is already taken!");
+      throw new AuthorizationException("Username or email is already taken!");
     }
 
     UserEntity savedUser = saveNewUser(registerRequestDTO);
@@ -48,9 +50,9 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserTokenDTO loginPlayer(LoginRequestDTO request) throws RuntimeException {
+  public UserTokenDTO loginPlayer(LoginRequestDTO request) throws AuthorizationException {
     UserEntity loggedUser = findUserByNameAndPassword(request.getUsername(), request.getPassword());
-    if (loggedUser == null) throw new RuntimeException("Username or password is incorrect!");
+    if (loggedUser == null) throw new AuthorizationException("Username or password is incorrect!");
     String token = jwtProvider.generateToken(loggedUser);
     return new UserTokenDTO(token);
   }

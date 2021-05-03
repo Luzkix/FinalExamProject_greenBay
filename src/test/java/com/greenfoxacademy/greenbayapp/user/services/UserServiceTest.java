@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
@@ -46,11 +47,11 @@ public class UserServiceTest {
     Assert.assertEquals(0L, result.getBalance().longValue());
   }
 
-  @Test(expected = RuntimeException.class)
-  public void registerUserThrowsNewRuntimeException() {
+  @Test(expected = AuthorizationException.class)
+  public void registerUserThrowsAuthorizationException() {
     RegisterRequestDTO dto = UserFactory.createRegisterRequestDTO_defaultDTO();
     Mockito.when(userRepository.existsByUsernameIgnoreCaseOrEmailIgnoreCase(dto.getUsername(), dto.getEmail()))
-        .thenThrow(RuntimeException.class);
+        .thenThrow(AuthorizationException.class);
 
     UserEntity result = userService.registerNewUser(dto);
   }
@@ -93,8 +94,8 @@ public class UserServiceTest {
     Assert.assertEquals("createdToken", result.getToken());
   }
 
-  @Test(expected = RuntimeException.class)
-  public void loginPlayer_throwsRuntimeException() {
+  @Test(expected = AuthorizationException.class)
+  public void loginPlayer_throwsAuthorizationException() {
     LoginRequestDTO request = UserFactory.createLoginRequestDTO_defaultDTO();
     Mockito.doReturn(null).when(userService).findUserByNameAndPassword(request.getUsername(),
         request.getPassword());
