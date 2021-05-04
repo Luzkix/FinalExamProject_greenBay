@@ -1,11 +1,14 @@
 package com.greenfoxacademy.greenbayapp.factories;
 
+import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.ProductDetailsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductDTO;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.BeanUtils;
 
 public class ProductFactory {
@@ -119,6 +122,46 @@ public class ProductFactory {
     UnsoldProductDTO unsoldProductDTO = new UnsoldProductDTO();
     BeanUtils.copyProperties(product, unsoldProductDTO);
     return unsoldProductDTO;
+  }
+
+  public static ProductDetailsResponseDTO createProductDetailsResponseDTO(
+        Long id, String name, String description, String photoUrl, Integer startingPrice, Integer purchasePrice,
+        Boolean sold, Integer soldPrice, LocalDateTime enlistingTime, LocalDateTime soldTime, Long sellerId,
+        String sellerName, Long buyerId, String buyerName, List<BidDetailsDTO> bids) {
+    ProductDetailsResponseDTO productDetails = new ProductDetailsResponseDTO();
+    productDetails.setId(id);
+    productDetails.setName(name);
+    productDetails.setDescription(description);
+    productDetails.setPhotoUrl(photoUrl);
+    productDetails.setStartingPrice(startingPrice);
+    productDetails.setPurchasePrice(purchasePrice);
+    productDetails.setSold(sold);
+    productDetails.setSoldPrice(soldPrice);
+    productDetails.setEnlistingTime(enlistingTime);
+    productDetails.setSoldTime(soldTime);
+    productDetails.setSellerId(sellerId);
+    productDetails.setSellerName(sellerName);
+    productDetails.setBuyerId(buyerId);
+    productDetails.setBuyerName(buyerName);
+    productDetails.setBids(bids);
+    return productDetails;
+  }
+
+  public static ProductDetailsResponseDTO createProductDetailsResponseDTO_defaultSold_sellerZdenek_bidderPetr(Long productId) {
+    UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
+    UserEntity petr = UserFactory.createUser_defaultUserPetr();
+    Product soldProduct = ProductFactory.createProduct_defaultSoldProduct(productId,zdenek,petr);
+    List<BidDetailsDTO> bids = BidFactory.createListOfBidDetailsDTO_3predefinedBids_bidderPetr();
+
+    ProductDetailsResponseDTO dto = new ProductDetailsResponseDTO();
+    BeanUtils.copyProperties(soldProduct, dto);
+    dto.setSellerId(1L);
+    dto.setSellerName(zdenek.getUsername());
+    dto.setBuyerId(2L);
+    dto.setBuyerName(petr.getUsername());
+    dto.setBids(bids);
+
+    return dto;
   }
 
 

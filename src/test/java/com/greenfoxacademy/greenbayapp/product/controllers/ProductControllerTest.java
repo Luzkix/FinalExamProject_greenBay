@@ -2,9 +2,11 @@ package com.greenfoxacademy.greenbayapp.product.controllers;
 
 import com.greenfoxacademy.greenbayapp.factories.AuthFactory;
 import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
+import com.greenfoxacademy.greenbayapp.product.models.dtos.ProductDetailsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.UnsoldProductsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.services.ProductService;
@@ -69,4 +71,34 @@ public class ProductControllerTest {
     ResponseEntity<?> response = productController.getSellableProducts(-1,auth);
   }
 
+  @Test
+  public void getProductDetails_returnsCorrectStatusCodeAndProductDetailsResponseDTO() {
+    UserEntity user = ((CustomUserDetails)auth.getPrincipal()).getUser();
+    ProductDetailsResponseDTO dto = ProductFactory.createProductDetailsResponseDTO_defaultSold_sellerZdenek_bidderPetr(1L);
+
+    Mockito.when(productService.getProductDetails(1L,user)).thenReturn(dto);
+
+    ResponseEntity<?> response = productController.getProductDetails(1L, auth);
+
+    Assert.assertEquals(200, response.getStatusCode().value());
+    Assert.assertEquals(1L,((ProductDetailsResponseDTO) response.getBody()).getId().longValue());
+    Assert.assertEquals(2L,((ProductDetailsResponseDTO) response.getBody()).getBuyerId().longValue());
+    Assert.assertEquals(3, ((ProductDetailsResponseDTO) response.getBody()).getBids().size());
+  }
+
+  @Test(expected = InvalidInputException.class)
+  public void getProductDetails_throwsInvalidInputException() {
+    UserEntity user = ((CustomUserDetails)auth.getPrincipal()).getUser();
+
+    Mockito.when(productService.getProductDetails(1L,user)).thenThrow(InvalidInputException.class);
+    ResponseEntity<?> response = productController.getProductDetails(1L, auth);
+  }
+
+  @Test(expected = AuthorizationException.class)
+  public void getProductDetails_throwsAuthorizationException() {
+    UserEntity user = ((CustomUserDetails)auth.getPrincipal()).getUser();
+
+    Mockito.when(productService.getProductDetails(1L,user)).thenThrow(AuthorizationException.class);
+    ResponseEntity<?> response = productController.getProductDetails(1L, auth);
+  }
 }

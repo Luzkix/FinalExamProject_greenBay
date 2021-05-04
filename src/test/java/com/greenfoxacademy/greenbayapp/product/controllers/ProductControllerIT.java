@@ -161,4 +161,54 @@ public class ProductControllerIT {
         .andExpect(jsonPath("$.status", is("error")))
         .andExpect(jsonPath("$.message", is("Invalid page number! Page must be > 0!")));
   }
+
+  @Test
+  public void getProductDetails_paramsSetCorrectly_unsold_returnsCorrectProductDetailsAndStatus200() throws Exception {
+    mockMvc.perform(get(ProductController.PRODUCT_URI+"/1")
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(200))
+        .andExpect(jsonPath("$.id", is(1)))
+        .andExpect(jsonPath("$.enlistingTime", is("2021-05-01T17:39:55")))
+        .andExpect(jsonPath("$.sold", is(false)))
+        .andExpect(jsonPath("$.sellerId", is(1)));
+  }
+
+  @Test
+  public void getProductDetails_paramsSetCorrectly_sold_returnsCorrectProductDetailsAndStatus200() throws Exception {
+    auth = AuthFactory.createAuth_userPetr();
+    mockMvc.perform(get(ProductController.PRODUCT_URI+"/7")
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(200))
+        .andExpect(jsonPath("$.id", is(7)))
+        .andExpect(jsonPath("$.enlistingTime", is("2021-05-01T23:39:55")))
+        .andExpect(jsonPath("$.sold", is(true)))
+        .andExpect(jsonPath("$.buyerId", is(1)));
+  }
+
+  @Test
+  public void getProductDetails_itemNotFromUser_returnsStatus401_unauthorizedMessage() throws Exception {
+    mockMvc.perform(get(ProductController.PRODUCT_URI+"/7")
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(401))
+        .andExpect(jsonPath("$.status", is("error")))
+        .andExpect(jsonPath("$.message", is("Not authorized to view details of selected item!")));
+  }
+
+  @Test
+  public void getProductDetails_negativeId_returnsStatus404_invalidInputMessage() throws Exception {
+    mockMvc.perform(get(ProductController.PRODUCT_URI+"/-1")
+        .principal(auth))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(404))
+        .andExpect(jsonPath("$.status", is("error")))
+        .andExpect(jsonPath("$.message", is("The item was not found!")));
+  }
+
 }

@@ -165,20 +165,28 @@ public class ProductServiceTest {
     Assert.assertEquals(product.getBuyer().getUsername(), response.getBuyerName());
   }
 
-  @Test(expected = InvalidInputException.class)
+  @Test
   public void getProductDetails_returnsInvalidInputException() {
     UserEntity user = UserFactory.createUser_defaultUserZdenek();
+    try {
+      ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
+    } catch (InvalidInputException ex) {
+      Assert.assertEquals("The item was not found!", ex.getMessage());
+    }
 
-    ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
   }
 
-  @Test(expected = AuthorizationException.class)
+  @Test
   public void getProductDetails_returnsAuthorizationException() {
     UserEntity user = UserFactory.createUser_defaultUserPetr();
     Product product = ProductFactory.createProduct_defaultSoldProductFromZdenekToPetr();
     Mockito.when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
-
-    ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
+    try {
+      ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
+    } catch (AuthorizationException ex) {
+      Assert.assertEquals("Not authorized to view details of selected item!", ex.getMessage());
+    }
   }
+
 
 }

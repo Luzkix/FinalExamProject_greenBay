@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class ProductController {
   public static final String PRODUCT_URI = "/product";
-  public static final String PRODUCT_ID_URI = PRODUCT_URI + "/{id}";
+  //public static final String PRODUCT_ID_URI = PRODUCT_URI + "/{id}";
   public static final String ACTIVE_DEALS_URI = "/activedeals";
 
 
@@ -44,7 +44,7 @@ public class ProductController {
     return ResponseEntity.ok().body(productService.filterUnsoldProducts(pageId));
   }
 
-  @GetMapping(PRODUCT_ID_URI)
+  @GetMapping(PRODUCT_URI+"/{id}")
   public ResponseEntity<?> getProductDetails(@PathVariable Long id, Authentication auth)
       throws InvalidInputException, AuthorizationException {
     UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
