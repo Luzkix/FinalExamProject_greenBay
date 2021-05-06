@@ -10,6 +10,7 @@ import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
@@ -166,11 +167,11 @@ public class ProductServiceTest {
   }
 
   @Test
-  public void getProductDetails_returnsInvalidInputException() {
+  public void getProductDetails_returnsNotFoundException() {
     UserEntity user = UserFactory.createUser_defaultUserZdenek();
     try {
       ProductDetailsResponseDTO response = productService.getProductDetails(1L, user);
-    } catch (InvalidInputException ex) {
+    } catch (NotFoundException ex) {
       Assert.assertEquals("The item was not found!", ex.getMessage());
     }
 

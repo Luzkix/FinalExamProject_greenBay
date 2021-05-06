@@ -201,7 +201,7 @@ public class ProductControllerIT {
   }
 
   @Test
-  public void getProductDetails_negativeId_returnsStatus404_invalidInputMessage() throws Exception {
+  public void getProductDetails_negativeId_returnsStatus404_notFoundMessage() throws Exception {
     mockMvc.perform(get(ProductController.PRODUCT_URI+"/-1")
         .principal(auth))
         .andDo(MockMvcResultHandlers.print())

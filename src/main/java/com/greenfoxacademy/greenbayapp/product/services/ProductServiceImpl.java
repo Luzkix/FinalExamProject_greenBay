@@ -2,7 +2,7 @@ package com.greenfoxacademy.greenbayapp.product.services;
 
 import com.greenfoxacademy.greenbayapp.bid.services.BidService;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
-import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
@@ -14,17 +14,21 @@ import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
   private ProductRepository productRepository;
   private BidService bidService;
+
+  public ProductServiceImpl(ProductRepository productRepository, @Lazy BidService bidService) {
+    this.productRepository = productRepository;
+    this.bidService = bidService;
+  }
 
   @Override
   public NewProductResponseDTO postNewProduct(NewProductRequestDTO request, UserEntity user) {
@@ -69,10 +73,10 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public ProductDetailsResponseDTO getProductDetails(Long id, UserEntity user)
-      throws InvalidInputException, AuthorizationException {
+      throws NotFoundException, AuthorizationException {
     Product product = productRepository.findById(id).orElse(null);
 
-    if (product == null) throw new InvalidInputException("The item was not found!");
+    if (product == null) throw new NotFoundException();
     if (!product.getSeller().getId().equals(user.getId()))
       throw new AuthorizationException("Not authorized to view details of selected item!");
 
@@ -100,4 +104,8 @@ public class ProductServiceImpl implements ProductService {
     return response;
   }
 
+  @Override
+  public Product getProductById(Long productId) {
+    return productRepository.findById(productId).orElse(null);
+  }
 }

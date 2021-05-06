@@ -2,6 +2,7 @@ package com.greenfoxacademy.greenbayapp.product.controllers;
 
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.ProductDetailsResponseDTO;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class ProductController {
   public static final String PRODUCT_URI = "/product";
-  //public static final String PRODUCT_ID_URI = PRODUCT_URI + "/{id}";
   public static final String ACTIVE_DEALS_URI = "/activedeals";
 
 
@@ -46,7 +46,7 @@ public class ProductController {
 
   @GetMapping(PRODUCT_URI+"/{id}")
   public ResponseEntity<?> getProductDetails(@PathVariable Long id, Authentication auth)
-      throws InvalidInputException, AuthorizationException {
+      throws NotFoundException, AuthorizationException {
     UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
     ProductDetailsResponseDTO responseDTO = productService.getProductDetails(id, user);
 

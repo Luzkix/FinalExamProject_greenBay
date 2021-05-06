@@ -4,6 +4,7 @@ import com.greenfoxacademy.greenbayapp.factories.AuthFactory;
 import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.ProductDetailsResponseDTO;
@@ -67,7 +68,7 @@ public class ProductControllerTest {
   }
 
   @Test(expected = InvalidInputException.class)
-  public void getSellableProducts_throwsInvalidInputException() {
+  public void getSellableProducts_throwsNotFoundException() {
     ResponseEntity<?> response = productController.getSellableProducts(-1,auth);
   }
 
@@ -86,11 +87,11 @@ public class ProductControllerTest {
     Assert.assertEquals(3, ((ProductDetailsResponseDTO) response.getBody()).getBids().size());
   }
 
-  @Test(expected = InvalidInputException.class)
-  public void getProductDetails_throwsInvalidInputException() {
+  @Test(expected = NotFoundException.class)
+  public void getProductDetails_throwsNotFoundException() {
     UserEntity user = ((CustomUserDetails)auth.getPrincipal()).getUser();
 
-    Mockito.when(productService.getProductDetails(1L,user)).thenThrow(InvalidInputException.class);
+    Mockito.when(productService.getProductDetails(1L,user)).thenThrow(NotFoundException.class);
     ResponseEntity<?> response = productController.getProductDetails(1L, auth);
   }
 

@@ -62,6 +62,9 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler({
       InvalidInputException.class,
+      NotFoundException.class,
+      NotSellableException.class,
+      NotEnoughDollarsException.class
   })
   public ResponseEntity<ErrorDTO> handleIncorrectInputsExceptions(Exception ex) {
     HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
