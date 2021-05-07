@@ -17,7 +17,7 @@ public interface UserService {
 
   UserEntity findByUsername(String username);
 
-  BalanceResponseDTO depositDollars(UserEntity user, Integer depositedDollars);
+  BalanceResponseDTO increaseDollars(UserEntity user, Integer increasedDollars);
 
-  BalanceResponseDTO withdrawDollars(UserEntity user, Integer withdrawnDollars);
+  BalanceResponseDTO decreaseDollars(UserEntity user, Integer decreasedDollars);
 }

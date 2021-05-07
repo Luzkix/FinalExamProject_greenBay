@@ -72,16 +72,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public BalanceResponseDTO depositDollars(UserEntity user, Integer depositedDollars) {
-    user.setBalance(user.getBalance() + depositedDollars);
+  public BalanceResponseDTO increaseDollars(UserEntity user, Integer increasedDollars) {
+    user.setBalance(user.getBalance() + increasedDollars);
     userRepository.save(user);
 
     return new BalanceResponseDTO(user.getId(), user.getUsername(), user.getBalance());
   }
 
   @Override
-  public BalanceResponseDTO withdrawDollars(UserEntity user, Integer withdrawnDollars) {
-    user.setBalance(user.getBalance() - withdrawnDollars);
+  public BalanceResponseDTO decreaseDollars(UserEntity user, Integer decreasedDollars) {
+    user.setBalance(user.getBalance() - decreasedDollars);
     userRepository.save(user);
 
     return new BalanceResponseDTO(user.getId(), user.getUsername(), user.getBalance());

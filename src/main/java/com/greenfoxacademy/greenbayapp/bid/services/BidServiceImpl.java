@@ -56,6 +56,7 @@ public class BidServiceImpl implements BidService {
       throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
       LowBidException, InvalidInputException {
     Product product = productService.findProductById(productId);
+
     checkBaseExceptions(product, bidPrice, user);
     Bid bid = createBid(product, bidPrice, user);
     if (bid.getBidPrice() >= product.getPurchasePrice()) setProductToSoldProduct(product, bid);
@@ -82,8 +83,8 @@ public class BidServiceImpl implements BidService {
 
     //if same user is overbidding own bids, previous method wont work. Thus he is charged lower price here.
     if (user.getId().equals(previousBid.getBidder().getId())) {
-      userService.withdrawDollars(user,bidPrice - previousBid.getBidPrice());
-    } else userService.withdrawDollars(user,bidPrice);
+      userService.decreaseDollars(user,bidPrice - previousBid.getBidPrice());
+    } else userService.decreaseDollars(user, bidPrice);
 
     Bid newBid = setNewBid(bidPrice, product, user);
     bidRepository.save(newBid);
@@ -104,7 +105,7 @@ public class BidServiceImpl implements BidService {
   }
 
   private UserEntity returnDollarsToPreviousBidder(Bid bid) {
-    userService.depositDollars(bid.getBidder(), bid.getBidPrice());
+    userService.increaseDollars(bid.getBidder(), bid.getBidPrice());
     return bid.getBidder();
   }
 
