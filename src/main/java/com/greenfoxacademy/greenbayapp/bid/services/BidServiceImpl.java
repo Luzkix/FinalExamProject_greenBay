@@ -78,21 +78,28 @@ public class BidServiceImpl implements BidService {
 
   private Bid createBid(Product product, Integer bidPrice, UserEntity user) {
     Bid previousBid = product.getHighestBid();
-    if(previousBid != null) returnDollarsToPreviousBidder(previousBid);
-    if(user.getId().equals(previousBid.getBidder().getId())) { //if same user is overbidding own bids, he is returned previous bid price
+    if (previousBid != null) returnDollarsToPreviousBidder(previousBid);
+
+    //if same user is overbidding own bids, previous method wont work. Thus he is charged lower price here.
+    if (user.getId().equals(previousBid.getBidder().getId())) {
       userService.withdrawDollars(user,bidPrice - previousBid.getBidPrice());
     } else userService.withdrawDollars(user,bidPrice);
 
-    Bid newBid = new Bid();
-    newBid.setBidPrice(bidPrice);
-    newBid.setBidTime(LocalDateTime.now());
-    newBid.setProduct(product);
-    newBid.setBidder(user);
+    Bid newBid = setNewBid(bidPrice, product, user);
     bidRepository.save(newBid);
 
     product.setHighestBid(newBid);
     productService.saveProduct(product);
 
+    return newBid;
+  }
+
+  private Bid setNewBid(Integer bidPrice, Product product, UserEntity user) {
+    Bid newBid = new Bid();
+    newBid.setBidPrice(bidPrice);
+    newBid.setBidTime(LocalDateTime.now());
+    newBid.setProduct(product);
+    newBid.setBidder(user);
     return newBid;
   }
 

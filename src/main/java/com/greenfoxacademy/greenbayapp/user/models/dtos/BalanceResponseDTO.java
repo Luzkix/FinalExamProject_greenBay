@@ -1,9 +1,7 @@
 package com.greenfoxacademy.greenbayapp.user.models.dtos;
 
-import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
