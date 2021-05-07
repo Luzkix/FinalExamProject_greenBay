@@ -4,15 +4,20 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.greenbayapp.TestNoSecurityConfig;
+import com.greenfoxacademy.greenbayapp.factories.AuthFactory;
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
+import com.greenfoxacademy.greenbayapp.security.CustomUserDetails;
+import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -33,6 +39,13 @@ public class UserControllerIT {
 
   @Autowired
   private MockMvc mockMvc;
+
+  Authentication auth;
+
+  @Before
+  public void setUp() throws Exception {
+    auth = AuthFactory.createAuth_userZdenek();
+  }
 
   @Test
   public void registerUserShouldReturnStatus201() throws Exception {
@@ -118,5 +131,27 @@ public class UserControllerIT {
         .andExpect(status().is(401))
         .andExpect(jsonPath("$.status",is("error")))
         .andExpect(jsonPath("$.message",is("Username or password is incorrect!")));;
+  }
+
+  @Test
+  public void depositDollars_ShouldReturnStatus200andCorrectMessage() throws Exception {
+    UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
+    mockMvc.perform(put(UserController.DEPOSIT)
+        .param("deposit","100")
+        .principal(auth))
+        .andExpect(status().is(200))
+        .andExpect(jsonPath("$.userId", is(user.getId().intValue())))
+        .andExpect(jsonPath("$.username", is(user.getUsername())))
+        .andExpect(jsonPath("$.balance",is(100)));
+  }
+
+  @Test
+  public void depositDollars_ShouldReturnStatus406andErrorMessage() throws Exception {
+    mockMvc.perform(put(UserController.DEPOSIT)
+        .param("deposit","-100")
+        .principal(auth))
+        .andExpect(status().is(406))
+        .andExpect(jsonPath("$.status", is("error")))
+        .andExpect(jsonPath("$.message", is("Deposited amount can not be lower than 1!")));
   }
 }

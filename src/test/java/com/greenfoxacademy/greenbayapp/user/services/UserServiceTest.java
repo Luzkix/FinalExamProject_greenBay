@@ -7,6 +7,7 @@ import com.greenfoxacademy.greenbayapp.factories.UserFactory;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.BalanceResponseDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterResponseDTO;
@@ -101,5 +102,33 @@ public class UserServiceTest {
         request.getPassword());
 
     UserTokenDTO result = userService.loginPlayer(request);
+  }
+
+  @Test
+  public void increaseDollars_returnsCorrectBalanceResponseDTO() {
+    UserEntity user = UserFactory.createUser_defaultUserZdenek();
+    user.setBalance(100);
+
+    Mockito.when(userRepository.save(user)).thenReturn(user);
+
+    BalanceResponseDTO result = userService.increaseDollars(user,100);
+
+    Assert.assertEquals(1, result.getUserId().intValue());
+    Assert.assertEquals("zdenek", result.getUsername());
+    Assert.assertEquals(200, result.getBalance().intValue());
+  }
+
+  @Test
+  public void decreaseDollars_returnsCorrectBalanceResponseDTO() {
+    UserEntity user = UserFactory.createUser_defaultUserZdenek();
+    user.setBalance(100);
+
+    Mockito.when(userRepository.save(user)).thenReturn(user);
+
+    BalanceResponseDTO result = userService.decreaseDollars(user,100);
+
+    Assert.assertEquals(1, result.getUserId().intValue());
+    Assert.assertEquals("zdenek", result.getUsername());
+    Assert.assertEquals(0, result.getBalance().intValue());
   }
 }
