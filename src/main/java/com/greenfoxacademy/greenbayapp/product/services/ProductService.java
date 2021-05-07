@@ -1,7 +1,6 @@
 package com.greenfoxacademy.greenbayapp.product.services;
 
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
-import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;

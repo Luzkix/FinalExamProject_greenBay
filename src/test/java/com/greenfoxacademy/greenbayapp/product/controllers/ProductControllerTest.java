@@ -75,7 +75,8 @@ public class ProductControllerTest {
   @Test
   public void getProductDetails_returnsCorrectStatusCodeAndProductDetailsResponseDTO() {
     UserEntity user = ((CustomUserDetails)auth.getPrincipal()).getUser();
-    ProductDetailsResponseDTO dto = ProductFactory.createProductDetailsResponseDTO_defaultSold_sellerZdenek_bidderPetr(1L);
+    ProductDetailsResponseDTO dto =
+        ProductFactory.createProductDetailsResponseDTO_defaultSold_sellerZdenek_bidderPetr(1L);
 
     Mockito.when(productService.getProductDetails(1L,user)).thenReturn(dto);
 

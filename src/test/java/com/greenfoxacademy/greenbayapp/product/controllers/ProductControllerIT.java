@@ -164,7 +164,7 @@ public class ProductControllerIT {
 
   @Test
   public void getProductDetails_paramsSetCorrectly_unsold_returnsCorrectProductDetailsAndStatus200() throws Exception {
-    mockMvc.perform(get(ProductController.PRODUCT_URI+"/1")
+    mockMvc.perform(get(ProductController.PRODUCT_URI + "/1")
         .principal(auth))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -178,7 +178,7 @@ public class ProductControllerIT {
   @Test
   public void getProductDetails_paramsSetCorrectly_sold_returnsCorrectProductDetailsAndStatus200() throws Exception {
     auth = AuthFactory.createAuth_userPetr();
-    mockMvc.perform(get(ProductController.PRODUCT_URI+"/7")
+    mockMvc.perform(get(ProductController.PRODUCT_URI + "/7")
         .principal(auth))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -191,7 +191,7 @@ public class ProductControllerIT {
 
   @Test
   public void getProductDetails_itemNotFromUser_returnsStatus401_unauthorizedMessage() throws Exception {
-    mockMvc.perform(get(ProductController.PRODUCT_URI+"/7")
+    mockMvc.perform(get(ProductController.PRODUCT_URI + "/7")
         .principal(auth))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -202,7 +202,7 @@ public class ProductControllerIT {
 
   @Test
   public void getProductDetails_negativeId_returnsStatus404_notFoundMessage() throws Exception {
-    mockMvc.perform(get(ProductController.PRODUCT_URI+"/-1")
+    mockMvc.perform(get(ProductController.PRODUCT_URI + "/-1")
         .principal(auth))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

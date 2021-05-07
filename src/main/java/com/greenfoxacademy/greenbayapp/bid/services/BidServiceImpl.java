@@ -50,10 +50,10 @@ public class BidServiceImpl implements BidService {
   public ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity user)
       throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException {
     Product product = productService.getProductById(productId);
-    if(product == null) throw new NotFoundException();
-    if(product.getSold()) throw new NotSellableException();
-    if(!bidIsAuthorized(product,user)) throw new AuthorizationException("User can not do bidding on own items!");
-    if(bidPrice > user.getBalance()) throw new NotEnoughDollarsException();
+    if (product == null) throw new NotFoundException();
+    if (product.getSold()) throw new NotSellableException();
+    if (!bidIsAuthorized(product,user)) throw new AuthorizationException("User can not do bidding on own items!");
+    if (bidPrice > user.getBalance()) throw new NotEnoughDollarsException();
 
     return null;
   }

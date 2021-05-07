@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class BidController {
-  private final static String BID_URI = "/bid";
+  public static final String BID_URI = "/bid";
+
   private BidService bidService;
 
-  @PostMapping(BID_URI+"/{id}")
-  public ResponseEntity<?>doBidding(@PathVariable(required = true, name = "productId") Long productId,
+  @PostMapping(BID_URI + "/{id}")
+  public ResponseEntity<?> doBidding(@PathVariable(required = true, name = "productId") Long productId,
                                     @RequestParam(required = true) Integer bidPrice,
                                     Authentication auth)
       throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException {

@@ -147,7 +147,8 @@ public class ProductFactory {
     return productDetails;
   }
 
-  public static ProductDetailsResponseDTO createProductDetailsResponseDTO_defaultSold_sellerZdenek_bidderPetr(Long productId) {
+  public static ProductDetailsResponseDTO createProductDetailsResponseDTO_defaultSold_sellerZdenek_bidderPetr(
+      Long productId) {
     UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
     UserEntity petr = UserFactory.createUser_defaultUserPetr();
     Product soldProduct = ProductFactory.createProduct_defaultSoldProduct(productId,zdenek,petr);
@@ -155,14 +156,12 @@ public class ProductFactory {
 
     ProductDetailsResponseDTO dto = new ProductDetailsResponseDTO();
     BeanUtils.copyProperties(soldProduct, dto);
+    dto.setBids(bids);
     dto.setSellerId(1L);
     dto.setSellerName(zdenek.getUsername());
     dto.setBuyerId(2L);
     dto.setBuyerName(petr.getUsername());
-    dto.setBids(bids);
 
     return dto;
   }
-
-
 }

@@ -4,7 +4,6 @@ import com.greenfoxacademy.greenbayapp.bid.models.Bid;
 import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
 import com.greenfoxacademy.greenbayapp.bid.repositories.BidRepository;
 import com.greenfoxacademy.greenbayapp.factories.BidFactory;
-import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.services.ProductService;
 import java.util.List;
 import java.util.Set;

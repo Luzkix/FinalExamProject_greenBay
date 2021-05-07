@@ -44,7 +44,7 @@ public class ProductController {
     return ResponseEntity.ok().body(productService.filterUnsoldProducts(pageId));
   }
 
-  @GetMapping(PRODUCT_URI+"/{id}")
+  @GetMapping(PRODUCT_URI + "/{id}")
   public ResponseEntity<?> getProductDetails(@PathVariable Long id, Authentication auth)
       throws NotFoundException, AuthorizationException {
     UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();

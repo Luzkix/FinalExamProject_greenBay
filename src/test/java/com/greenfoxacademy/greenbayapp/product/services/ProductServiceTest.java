@@ -9,7 +9,6 @@ import com.greenfoxacademy.greenbayapp.factories.BidFactory;
 import com.greenfoxacademy.greenbayapp.factories.ProductFactory;
 import com.greenfoxacademy.greenbayapp.factories.UserFactory;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
-import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
