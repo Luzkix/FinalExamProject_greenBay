@@ -4,6 +4,8 @@ import com.greenfoxacademy.greenbayapp.bid.models.Bid;
 import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
 import com.greenfoxacademy.greenbayapp.bid.repositories.BidRepository;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.LowBidException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotEnoughDollarsException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotSellableException;
@@ -11,6 +13,8 @@ import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.ProductDetailsResponseDTO;
 import com.greenfoxacademy.greenbayapp.product.services.ProductService;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import com.greenfoxacademy.greenbayapp.user.services.UserService;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +28,7 @@ import org.springframework.stereotype.Service;
 public class BidServiceImpl implements BidService {
   private BidRepository bidRepository;
   private ProductService productService;
+  private UserService userService;
 
   @Override
   public BidDetailsDTO convertBidIntoBidDetailsDTO(Bid bid) {
@@ -48,17 +53,59 @@ public class BidServiceImpl implements BidService {
 
   @Override
   public ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity user)
-      throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException {
-    Product product = productService.getProductById(productId);
-    if (product == null) throw new NotFoundException();
-    if (product.getSold()) throw new NotSellableException();
-    if (!bidIsAuthorized(product,user)) throw new AuthorizationException("User can not do bidding on own items!");
-    if (bidPrice > user.getBalance()) throw new NotEnoughDollarsException();
+      throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
+      LowBidException, InvalidInputException {
+    Product product = productService.findProductById(productId);
+    checkBaseExceptions(product, bidPrice, user);
+    Bid bid = createBid(product, bidPrice, user);
+    if (bid.getBidPrice() >= product.getPurchasePrice()) setProductToSoldProduct(product, bid);
 
-    return null;
+    return productService.convertProductIntoProductDetailsResponseDTO(product);
   }
 
-  public boolean bidIsAuthorized(Product product, UserEntity user) {
-    return product.getSeller().getId() != user.getId();
+  public void checkBaseExceptions(Product product, Integer bidPrice, UserEntity user)
+      throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
+      LowBidException, InvalidInputException {
+    if (product == null) throw new NotFoundException();
+    if (product.getSold()) throw new NotSellableException();
+    if (product.getSeller().getId().equals(user.getId())) throw new AuthorizationException(
+        "User can not do bidding on own items!");
+    if (bidPrice > user.getBalance()) throw new NotEnoughDollarsException();
+    if (bidPrice <= 0) throw new InvalidInputException("Bid price must be > 0!");
+    if (product.getHighestBid() != null && bidPrice <= product.getHighestBid().getBidPrice())
+      throw new LowBidException();
+  }
+
+  private Bid createBid(Product product, Integer bidPrice, UserEntity user) {
+    Bid previousBid = product.getHighestBid();
+    if(previousBid != null) returnDollarsToPreviousBidder(previousBid);
+    if(user.getId().equals(previousBid.getBidder().getId())) { //if same user is overbidding own bids, he is returned previous bid price
+      userService.withdrawDollars(user,bidPrice - previousBid.getBidPrice());
+    } else userService.withdrawDollars(user,bidPrice);
+
+    Bid newBid = new Bid();
+    newBid.setBidPrice(bidPrice);
+    newBid.setBidTime(LocalDateTime.now());
+    newBid.setProduct(product);
+    newBid.setBidder(user);
+    bidRepository.save(newBid);
+
+    product.setHighestBid(newBid);
+    productService.saveProduct(product);
+
+    return newBid;
+  }
+
+  private UserEntity returnDollarsToPreviousBidder(Bid bid) {
+    userService.depositDollars(bid.getBidder(), bid.getBidPrice());
+    return bid.getBidder();
+  }
+
+  public Product setProductToSoldProduct(Product product, Bid bid) {
+    product.setSold(true);
+    product.setSoldPrice(bid.getBidPrice());
+    product.setSoldTime(bid.getBidTime());
+    product.setBuyer(bid.getBidder());
+    return productService.saveProduct(product);
   }
 }

@@ -3,6 +3,7 @@ package com.greenfoxacademy.greenbayapp.user.services;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.security.jwt.JwtProvider;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.BalanceResponseDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterResponseDTO;
@@ -68,5 +69,21 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserEntity findByUsername(String username) {
     return userRepository.findByUsername(username);
+  }
+
+  @Override
+  public BalanceResponseDTO depositDollars(UserEntity user, Integer depositedDollars) {
+    user.setBalance(user.getBalance() + depositedDollars);
+    userRepository.save(user);
+
+    return new BalanceResponseDTO(user.getId(), user.getUsername(), user.getBalance());
+  }
+
+  @Override
+  public BalanceResponseDTO withdrawDollars(UserEntity user, Integer withdrawnDollars) {
+    user.setBalance(user.getBalance() - withdrawnDollars);
+    userRepository.save(user);
+
+    return new BalanceResponseDTO(user.getId(), user.getUsername(), user.getBalance());
   }
 }

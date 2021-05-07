@@ -2,6 +2,7 @@ package com.greenfoxacademy.greenbayapp.user.services;
 
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
+import com.greenfoxacademy.greenbayapp.user.models.dtos.BalanceResponseDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.LoginRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterRequestDTO;
 import com.greenfoxacademy.greenbayapp.user.models.dtos.RegisterResponseDTO;
@@ -15,4 +16,8 @@ public interface UserService {
   UserTokenDTO loginPlayer(LoginRequestDTO loginRequestDTO) throws AuthorizationException;
 
   UserEntity findByUsername(String username);
+
+  BalanceResponseDTO depositDollars(UserEntity user, Integer depositedDollars);
+
+  BalanceResponseDTO withdrawDollars(UserEntity user, Integer withdrawnDollars);
 }

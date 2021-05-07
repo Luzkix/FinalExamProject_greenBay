@@ -5,6 +5,7 @@ import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
 import com.greenfoxacademy.greenbayapp.bid.repositories.BidRepository;
 import com.greenfoxacademy.greenbayapp.factories.BidFactory;
 import com.greenfoxacademy.greenbayapp.product.services.ProductService;
+import com.greenfoxacademy.greenbayapp.user.services.UserService;
 import java.util.List;
 import java.util.Set;
 import org.junit.Assert;
@@ -16,12 +17,14 @@ public class BidServiceTest {
   private BidServiceImpl bidService;
   private BidRepository bidRepository;
   private ProductService productService;
+  private UserService userService;
 
   @Before
   public void setUp() {
     bidRepository = Mockito.mock(BidRepository.class);
     productService = Mockito.mock(ProductService.class);
-    bidService = Mockito.spy(new BidServiceImpl(bidRepository, productService));
+    userService = Mockito.mock(UserService.class);
+    bidService = Mockito.spy(new BidServiceImpl(bidRepository, productService, userService));
   }
 
   @Test

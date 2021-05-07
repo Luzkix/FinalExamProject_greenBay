@@ -2,6 +2,8 @@ package com.greenfoxacademy.greenbayapp.bid.controllers;
 
 import com.greenfoxacademy.greenbayapp.bid.services.BidService;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.LowBidException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotEnoughDollarsException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotSellableException;
@@ -25,12 +27,15 @@ public class BidController {
   private BidService bidService;
 
   @PostMapping(BID_URI + "/{id}")
-  public ResponseEntity<?> doBidding(@PathVariable(required = true, name = "productId") Long productId,
+  public ResponseEntity<?> doBidding(@PathVariable(required = true, name = "id") Long productId,
                                     @RequestParam(required = true) Integer bidPrice,
                                     Authentication auth)
-      throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException {
+      throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
+      LowBidException, InvalidInputException {
+
     UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
     ProductDetailsResponseDTO dto = bidService.doBidding(productId, bidPrice, user);
+
     return ResponseEntity.status(HttpStatus.CREATED).body(dto);
   }
 }

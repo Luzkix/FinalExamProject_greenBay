@@ -3,6 +3,8 @@ package com.greenfoxacademy.greenbayapp.bid.services;
 import com.greenfoxacademy.greenbayapp.bid.models.Bid;
 import com.greenfoxacademy.greenbayapp.bid.models.dtos.BidDetailsDTO;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.InvalidInputException;
+import com.greenfoxacademy.greenbayapp.globalexceptionhandling.LowBidException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotEnoughDollarsException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotSellableException;
@@ -16,6 +18,7 @@ public interface BidService {
 
   List<BidDetailsDTO> convertSetOfBidsIntoListOfBidDetailDTOs(Set<Bid> bids);
 
-  ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity user) throws
-      NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException;
+  ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity user)
+      throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
+      LowBidException, InvalidInputException;
 }

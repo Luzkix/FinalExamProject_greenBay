@@ -17,5 +17,9 @@ public interface ProductService {
   ProductDetailsResponseDTO getProductDetails(Long id, UserEntity user) throws
       NotFoundException, AuthorizationException;
 
-  Product getProductById(Long productId);
+  Product findProductById(Long productId);
+
+  ProductDetailsResponseDTO convertProductIntoProductDetailsResponseDTO(Product product);
+
+  Product saveProduct(Product product);
 }

@@ -105,7 +105,12 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Product getProductById(Long productId) {
+  public Product findProductById(Long productId) {
     return productRepository.findById(productId).orElse(null);
+  }
+
+  @Override
+  public Product saveProduct(Product product) {
+    return productRepository.save(product);
   }
 }
