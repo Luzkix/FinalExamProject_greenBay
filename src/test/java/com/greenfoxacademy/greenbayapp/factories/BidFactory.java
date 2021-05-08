@@ -35,6 +35,21 @@ public class BidFactory {
     );
   }
 
+  public static Bid createBid_defaultUnsoldProduct_sellerZdenek_bidderPetr(Long bidId, Long productId, Integer bidPrice) {
+    UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
+    UserEntity petr = UserFactory.createUser_defaultUserPetr();
+    Product product = ProductFactory.createProduct_defaultUnsoldProduct(productId,zdenek);
+    Bid bid = createBid(
+        bidId,
+        bidPrice,
+        LocalDateTime.parse("2022-05-30T23:16:02.462664400"),
+        product,
+        petr
+    );
+    product.setHighestBid(bid);
+    return bid;
+  }
+
   public static Set<Bid> createSetOfBids_3bids(Bid bid1, Bid bid2, Bid bid3) {
     Set<Bid> bids = new HashSet<>();
     bids.add(bid1);

@@ -52,41 +52,41 @@ public class BidServiceImpl implements BidService {
   }
 
   @Override
-  public ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity user)
+  public ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity bidder)
       throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
       LowBidException, InvalidInputException {
     Product product = productService.findProductById(productId);
 
-    checkBaseExceptions(product, bidPrice, user);
-    Bid bid = createBid(product, bidPrice, user);
+    checkBaseExceptions(product, bidPrice, bidder);
+    Bid bid = createBid(product, bidPrice, bidder);
     if (bid.getBidPrice() >= product.getPurchasePrice()) setProductToSoldProduct(product, bid);
 
     return productService.convertProductIntoProductDetailsResponseDTO(product);
   }
 
-  public void checkBaseExceptions(Product product, Integer bidPrice, UserEntity user)
+  public void checkBaseExceptions(Product product, Integer bidPrice, UserEntity bidder)
       throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
       LowBidException, InvalidInputException {
     if (product == null) throw new NotFoundException();
     if (product.getSold()) throw new NotSellableException();
-    if (product.getSeller().getId().equals(user.getId())) throw new AuthorizationException(
+    if (product.getSeller().getId().equals(bidder.getId())) throw new AuthorizationException(
         "User can not do bidding on own items!");
-    if (bidPrice > user.getBalance()) throw new NotEnoughDollarsException();
+    if (bidPrice > bidder.getBalance()) throw new NotEnoughDollarsException();
     if (bidPrice <= 0) throw new InvalidInputException("Bid price must be > 0!");
     if (product.getHighestBid() != null && bidPrice <= product.getHighestBid().getBidPrice())
       throw new LowBidException();
   }
 
-  private Bid createBid(Product product, Integer bidPrice, UserEntity user) {
+  public Bid createBid(Product product, Integer bidPrice, UserEntity bidder) {
     Bid previousBid = product.getHighestBid();
     if (previousBid != null) returnDollarsToPreviousBidder(previousBid);
 
-    //if same user is overbidding own bids, previous method wont work. Thus he is charged lower price here.
-    if (previousBid != null && user.getId().equals(previousBid.getBidder().getId())) {
-      userService.decreaseDollars(user,bidPrice - previousBid.getBidPrice());
-    } else userService.decreaseDollars(user, bidPrice);
+    //if same bidder is overbidding own bids, previous method wont work. Thus he is charged lower price here.
+    if (previousBid != null && bidder.getId().equals(previousBid.getBidder().getId())) {
+      userService.decreaseDollars(bidder,bidPrice - previousBid.getBidPrice());
+    } else userService.decreaseDollars(bidder, bidPrice);
 
-    Bid newBid = setNewBid(bidPrice, product, user);
+    Bid newBid = setNewBid(bidPrice, product, bidder);
     bidRepository.save(newBid);
 
     product.setHighestBid(newBid);
@@ -95,16 +95,16 @@ public class BidServiceImpl implements BidService {
     return newBid;
   }
 
-  private Bid setNewBid(Integer bidPrice, Product product, UserEntity user) {
+  public Bid setNewBid(Integer bidPrice, Product product, UserEntity bidder) {
     Bid newBid = new Bid();
     newBid.setBidPrice(bidPrice);
     newBid.setBidTime(LocalDateTime.now());
     newBid.setProduct(product);
-    newBid.setBidder(user);
+    newBid.setBidder(bidder);
     return newBid;
   }
 
-  private UserEntity returnDollarsToPreviousBidder(Bid bid) {
+  public UserEntity returnDollarsToPreviousBidder(Bid bid) {
     userService.increaseDollars(bid.getBidder(), bid.getBidPrice());
     return bid.getBidder();
   }
@@ -114,6 +114,7 @@ public class BidServiceImpl implements BidService {
     product.setSoldPrice(bid.getBidPrice());
     product.setSoldTime(bid.getBidTime());
     product.setBuyer(bid.getBidder());
-    return productService.saveProduct(product);
+    productService.saveProduct(product);
+    return product;
   }
 }

@@ -33,8 +33,8 @@ public class BidController {
       throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
       LowBidException, InvalidInputException {
 
-    UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
-    ProductDetailsResponseDTO dto = bidService.doBidding(productId, bidPrice, user);
+    UserEntity bidder = ((CustomUserDetails) auth.getPrincipal()).getUser();
+    ProductDetailsResponseDTO dto = bidService.doBidding(productId, bidPrice, bidder);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(dto);
   }

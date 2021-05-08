@@ -18,7 +18,7 @@ public interface BidService {
 
   List<BidDetailsDTO> convertSetOfBidsIntoListOfBidDetailDTOs(Set<Bid> bids);
 
-  ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity user)
+  ProductDetailsResponseDTO doBidding(Long productId, Integer bidPrice, UserEntity bidder)
       throws NotFoundException, AuthorizationException, NotSellableException, NotEnoughDollarsException,
       LowBidException, InvalidInputException;
 }
