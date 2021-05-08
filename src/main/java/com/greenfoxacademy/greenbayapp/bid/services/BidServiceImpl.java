@@ -82,7 +82,7 @@ public class BidServiceImpl implements BidService {
     if (previousBid != null) returnDollarsToPreviousBidder(previousBid);
 
     //if same user is overbidding own bids, previous method wont work. Thus he is charged lower price here.
-    if (user.getId().equals(previousBid.getBidder().getId())) {
+    if (previousBid != null && user.getId().equals(previousBid.getBidder().getId())) {
       userService.decreaseDollars(user,bidPrice - previousBid.getBidPrice());
     } else userService.decreaseDollars(user, bidPrice);
 
