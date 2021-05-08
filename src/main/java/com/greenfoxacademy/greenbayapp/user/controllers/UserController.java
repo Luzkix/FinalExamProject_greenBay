@@ -45,7 +45,7 @@ public class UserController {
   @PutMapping(DEPOSIT)
   public ResponseEntity<?> depositDollars(@RequestParam (required = true) Integer deposit,
                                           Authentication auth) throws InvalidInputException {
-    if(deposit <= 0) throw new InvalidInputException("Deposited amount can not be lower than 1!");
+    if (deposit <= 0) throw new InvalidInputException("Deposited amount can not be lower than 1!");
 
     UserEntity user = ((CustomUserDetails) auth.getPrincipal()).getUser();
 

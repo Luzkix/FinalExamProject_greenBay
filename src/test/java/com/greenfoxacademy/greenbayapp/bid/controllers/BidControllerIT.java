@@ -38,7 +38,7 @@ public class BidControllerIT {
   private Authentication auth;
 
   @Before
-  public void SetUp() throws Exception {
+  public void setUp() throws Exception {
     auth = AuthFactory.createAuth_userZdenek();
   }
 

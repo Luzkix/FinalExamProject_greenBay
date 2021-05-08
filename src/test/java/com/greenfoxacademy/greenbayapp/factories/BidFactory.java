@@ -35,7 +35,8 @@ public class BidFactory {
     );
   }
 
-  public static Bid createBid_defaultUnsoldProduct_sellerZdenek_bidderPetr(Long bidId, Long productId, Integer bidPrice) {
+  public static Bid createBid_defaultUnsoldProduct_sellerZdenek_bidderPetr(Long bidId, Long productId,
+                                                                           Integer bidPrice) {
     UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
     UserEntity petr = UserFactory.createUser_defaultUserPetr();
     Product product = ProductFactory.createProduct_defaultUnsoldProduct(productId,zdenek);
