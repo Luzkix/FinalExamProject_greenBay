@@ -27,7 +27,7 @@ CREATE TABLE products (
 CREATE TABLE bids (
     id              BIGSERIAL PRIMARY KEY,
     bid_price       INTEGER         NOT NULL,
-    bid_time        TIMESTAMP    NOT NULL,
+    bid_time        TIMESTAMP       NOT NULL,
     product_id      BIGINT          NOT NULL,
     bidder_id       BIGINT          NOT NULL,
     FOREIGN KEY (product_id)    REFERENCES products (id),
