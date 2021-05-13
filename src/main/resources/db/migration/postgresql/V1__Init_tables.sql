@@ -1,6 +1,6 @@
 CREATE TABLE users (
     id          BIGSERIAL PRIMARY KEY,
-    username    CHARACTER(100)    NOT NULL,
+    username    VARCHAR(100)    NOT NULL,
     email       VARCHAR(100)    NOT NULL,
     password    VARCHAR(100)    NOT NULL,
     balance     INTEGER         DEFAULT 0
@@ -15,8 +15,8 @@ CREATE TABLE products (
     purchase_price  INTEGER         NOT NULL,
     sold            BOOLEAN,
     sold_price      INTEGER,
-    enlisting_time  VARCHAR(100),
-    sold_time       VARCHAR(100),
+    enlisting_time  TIMESTAMP,
+    sold_time       TIMESTAMP,
     highest_bid_id  BIGINT,
     seller_id       BIGINT,
     buyer_id        BIGINT,
@@ -27,7 +27,7 @@ CREATE TABLE products (
 CREATE TABLE bids (
     id              BIGSERIAL PRIMARY KEY,
     bid_price       INTEGER         NOT NULL,
-    bid_time        VARCHAR(100)    NOT NULL,
+    bid_time        TIMESTAMP    NOT NULL,
     product_id      BIGINT          NOT NULL,
     bidder_id       BIGINT          NOT NULL,
     FOREIGN KEY (product_id)    REFERENCES products (id),
