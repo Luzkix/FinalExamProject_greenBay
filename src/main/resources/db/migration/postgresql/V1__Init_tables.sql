@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id          SERIAL PRIMARY KEY,
+    id          BIGSERIAL PRIMARY KEY,
     username    VARCHAR(100)    NOT NULL,
     email       VARCHAR(100)    NOT NULL,
     password    VARCHAR(100)    NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE products (
-    id              SERIAL PRIMARY KEY,
+    id              BIGSERIAL PRIMARY KEY,
     name            VARCHAR(100)    NOT NULL,
     description     VARCHAR(100)    NOT NULL,
     photo_url       VARCHAR(100)    NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE products (
 );
 
 CREATE TABLE bids (
-    id              SERIAL PRIMARY KEY,
+    id              BIGSERIAL PRIMARY KEY,
     bid_price       INTEGER         NOT NULL,
     bid_time        VARCHAR(100)    NOT NULL,
     product_id      BIGINT          NOT NULL,
