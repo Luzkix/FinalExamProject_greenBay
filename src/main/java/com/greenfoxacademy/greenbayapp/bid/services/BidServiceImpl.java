@@ -19,16 +19,20 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class BidServiceImpl implements BidService {
   private BidRepository bidRepository;
   private ProductService productService;
   private UserService userService;
+
+  public BidServiceImpl(BidRepository bidRepository, ProductService productService, UserService userService) {
+    this.bidRepository = bidRepository;
+    this.productService = productService;
+    this.userService = userService;
+  }
 
   @Override
   public BidDetailsDTO convertBidIntoBidDetailsDTO(Bid bid) {

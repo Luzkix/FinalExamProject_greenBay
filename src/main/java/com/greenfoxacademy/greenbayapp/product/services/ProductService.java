@@ -12,6 +12,8 @@ import com.greenfoxacademy.greenbayapp.user.models.UserEntity;
 public interface ProductService {
   NewProductResponseDTO postNewProduct(NewProductRequestDTO request, UserEntity user);
 
+  Product setUpNewProduct(NewProductRequestDTO request, UserEntity user);
+
   UnsoldProductsResponseDTO filterUnsoldProducts(Integer pageId);
 
   ProductDetailsResponseDTO getProductDetails(Long id, UserEntity user) throws
