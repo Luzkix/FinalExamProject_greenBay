@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional //it solved this exception: org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role
+@Transactional //it solved this exception: org.hibernate.LazyInitializationException:failed to lazily initialize...
 @Slf4j
 public class AppStartupRunner implements ApplicationRunner {
 
@@ -41,7 +41,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
     log.info("Checking if database is empty");
     boolean databaseNotEmpty = userRepository.existsById(1L);
-    if(!databaseNotEmpty) createDefaultObjectsIntoDtb();
+    if (!databaseNotEmpty) createDefaultObjectsIntoDtb();
 
   }
 
@@ -101,7 +101,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
     //petr is bidding to zdenek's product with id 1 - lower price than buy price
     bidService.doBidding(1L,400,petr);
-    //petr is bidding to zdenek's product with id 2 - higher price than buy price = product is sold to petr/    bidService.doBidding(2L,500,petr);
-
+    //petr is bidding to zdenek's product with id 2 - higher price than buy price = product is sold to petr
+    bidService.doBidding(2L,500,petr);
   }
 }
