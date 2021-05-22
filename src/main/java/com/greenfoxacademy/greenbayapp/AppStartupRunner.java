@@ -1,6 +1,6 @@
 package com.greenfoxacademy.greenbayapp;
 
-import com.greenfoxacademy.greenbayapp.bid.services.BidService;
+import com.greenfoxacademy.greenbayapp.bid.services.BidServiceImpl;
 import com.greenfoxacademy.greenbayapp.product.models.Product;
 import com.greenfoxacademy.greenbayapp.product.models.dtos.NewProductRequestDTO;
 import com.greenfoxacademy.greenbayapp.product.services.ProductService;
@@ -11,22 +11,30 @@ import com.greenfoxacademy.greenbayapp.user.services.UserService;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional //it solved this exception: org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role
 @Slf4j
 public class AppStartupRunner implements ApplicationRunner {
-  @Autowired
+
   UserService userService;
-  @Autowired
   UserRepository userRepository;
-  @Autowired
   ProductService productService;
-  @Autowired
-  BidService bidService;
+  BidServiceImpl bidService;
+
+  public AppStartupRunner(UserService userService,
+                          UserRepository userRepository,
+                          ProductService productService,
+                          BidServiceImpl bidService) {
+    this.userService = userService;
+    this.userRepository = userRepository;
+    this.productService = productService;
+    this.bidService = bidService;
+  }
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
@@ -40,7 +48,7 @@ public class AppStartupRunner implements ApplicationRunner {
   private void createDefaultObjectsIntoDtb() {
     List<UserEntity> users = createDefaultUsers();
     List<Product> products = createDefaultProducts(users);
-    //createDefaultBids(users, products);   - not working, some issues with lazy initiation of bid class
+    createDefaultBids(users, products);
   }
 
   private List<UserEntity> createDefaultUsers() {
@@ -93,7 +101,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
     //petr is bidding to zdenek's product with id 1 - lower price than buy price
     bidService.doBidding(1L,400,petr);
-    //petr is bidding to zdenek's product with id 2 - higher price than buy price = product is sold to petr
-    bidService.doBidding(2L,500,petr);
+    //petr is bidding to zdenek's product with id 2 - higher price than buy price = product is sold to petr/    bidService.doBidding(2L,500,petr);
+
   }
 }
