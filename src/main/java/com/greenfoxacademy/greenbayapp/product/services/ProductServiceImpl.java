@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
       BeanUtils.copyProperties(products.get(i),dto);
 
       Bid highestBid = products.get(i).getHighestBid();
-      if(highestBid != null) dto.setHighestBid(highestBid.getBidPrice());
+      if (highestBid != null) dto.setHighestBid(highestBid.getBidPrice());
 
       dtos.add(dto);
     }
