@@ -1,5 +1,6 @@
 package com.greenfoxacademy.greenbayapp.product.services;
 
+import com.greenfoxacademy.greenbayapp.bid.models.Bid;
 import com.greenfoxacademy.greenbayapp.bid.services.BidService;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.AuthorizationException;
 import com.greenfoxacademy.greenbayapp.globalexceptionhandling.NotFoundException;
@@ -66,6 +67,10 @@ public class ProductServiceImpl implements ProductService {
     for (int i = 0; i < products.size(); i++) {
       UnsoldProductDTO dto = new UnsoldProductDTO();
       BeanUtils.copyProperties(products.get(i),dto);
+
+      Bid highestBid = products.get(i).getHighestBid();
+      if(highestBid != null) dto.setHighestBid(highestBid.getBidPrice());
+
       dtos.add(dto);
     }
     return dtos;
