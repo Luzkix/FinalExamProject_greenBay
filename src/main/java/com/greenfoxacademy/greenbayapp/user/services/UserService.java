@@ -13,7 +13,7 @@ public interface UserService {
 
   RegisterResponseDTO convertUserToRegisterResponseDTO(UserEntity newUser);
 
-  UserTokenDTO loginPlayer(LoginRequestDTO loginRequestDTO) throws AuthorizationException;
+  UserTokenDTO loginUser(LoginRequestDTO loginRequestDTO) throws AuthorizationException;
 
   UserEntity findByUsername(String username);
 

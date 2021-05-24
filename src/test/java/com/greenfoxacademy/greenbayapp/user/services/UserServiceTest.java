@@ -82,26 +82,26 @@ public class UserServiceTest {
   }
 
   @Test
-  public void loginPlayer_returnsToken() {
+  public void loginUser_returnsToken() {
     LoginRequestDTO request = UserFactory.createLoginRequestDTO_defaultDTO();
     UserEntity loggedUser = UserFactory.createUser_defaultUserZdenek();
     Mockito.doReturn(loggedUser).when(userService).findUserByNameAndPassword(request.getUsername(),
         request.getPassword());
     Mockito.when(jwtProvider.generateToken(loggedUser)).thenReturn("createdToken");
 
-    UserTokenDTO result = userService.loginPlayer(request);
+    UserTokenDTO result = userService.loginUser(request);
 
     Assert.assertEquals("ok", result.getStatus());
     Assert.assertEquals("createdToken", result.getToken());
   }
 
   @Test(expected = AuthorizationException.class)
-  public void loginPlayer_throwsAuthorizationException() {
+  public void loginUser_throwsAuthorizationException() {
     LoginRequestDTO request = UserFactory.createLoginRequestDTO_defaultDTO();
     Mockito.doReturn(null).when(userService).findUserByNameAndPassword(request.getUsername(),
         request.getPassword());
 
-    UserTokenDTO result = userService.loginPlayer(request);
+    UserTokenDTO result = userService.loginUser(request);
   }
 
   @Test

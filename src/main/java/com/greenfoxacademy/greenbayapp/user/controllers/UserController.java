@@ -38,7 +38,7 @@ public class UserController {
   @PostMapping (LOGIN)
   public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequestDTO loginRequestDTO)
       throws AuthorizationException {
-    return ResponseEntity.ok(userService.loginPlayer(loginRequestDTO));
+    return ResponseEntity.ok(userService.loginUser(loginRequestDTO));
   }
 
   //implementation is, that every user with valid token can increase his own balance...i know, strange :-)

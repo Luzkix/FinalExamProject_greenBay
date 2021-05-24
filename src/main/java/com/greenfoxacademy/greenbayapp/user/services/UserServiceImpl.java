@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserTokenDTO loginPlayer(LoginRequestDTO request) throws AuthorizationException {
+  public UserTokenDTO loginUser(LoginRequestDTO request) throws AuthorizationException {
     UserEntity loggedUser = findUserByNameAndPassword(request.getUsername(), request.getPassword());
     if (loggedUser == null) throw new AuthorizationException("Username or password is incorrect!");
     String token = jwtProvider.generateToken(loggedUser);
