@@ -80,7 +80,9 @@ public class AppStartupRunner implements ApplicationRunner {
         productService.setUpNewProduct(new NewProductRequestDTO("car8","redCar","http://localhost:8080",50,250), petr),
         productService.setUpNewProduct(new NewProductRequestDTO("car9","redCar","http://localhost:8080",50,250), petr),
         productService.setUpNewProduct(new NewProductRequestDTO("car10","redCar","http://localhost:8080",50,250), petr),
-        productService.setUpNewProduct(new NewProductRequestDTO("car11","redCar","http://localhost:8080",50,250), petr)
+        productService.setUpNewProduct(new NewProductRequestDTO("car11","redCar","http://localhost:8080",50,250), petr),
+        productService.setUpNewProduct(new NewProductRequestDTO("NFT - my beautiful picture!","Buy my first NFT which will stay on blockchain forever!",
+            "https://rarible.com/token/0x60f80121c31a0d46b5279700f9df786054aa5ee5:771464:0x22654fce84b7f2b5ec60a89eed40388c5f24dee4",250,2500), zdenek)
     );
   }
 
