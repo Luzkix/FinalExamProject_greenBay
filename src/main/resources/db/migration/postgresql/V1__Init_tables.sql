@@ -9,8 +9,8 @@ CREATE TABLE users (
 CREATE TABLE products (
     id              BIGSERIAL PRIMARY KEY,
     name            VARCHAR(100)    NOT NULL,
-    description     VARCHAR(100)    NOT NULL,
-    photo_url       VARCHAR(100)    NOT NULL,
+    description     VARCHAR(300)    NOT NULL,
+    photo_url       VARCHAR(400)    NOT NULL,
     starting_price  INTEGER         NOT NULL,
     purchase_price  INTEGER         NOT NULL,
     sold            BOOLEAN,
