@@ -38,11 +38,9 @@ public class AppStartupRunner implements ApplicationRunner {
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
-
     log.info("Checking if database is empty");
-    boolean databaseNotEmpty = userRepository.existsById(1L);
-    if (!databaseNotEmpty) createDefaultObjectsIntoDtb();
-
+    boolean databaseIsEmpty = userRepository.findAll().isEmpty();
+    if (databaseIsEmpty) createDefaultObjectsIntoDtb();
   }
 
   private void createDefaultObjectsIntoDtb() {
