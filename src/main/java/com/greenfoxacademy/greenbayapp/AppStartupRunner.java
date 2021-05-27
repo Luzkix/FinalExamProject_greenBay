@@ -65,10 +65,8 @@ public class AppStartupRunner implements ApplicationRunner {
 
   private List<Product> createDefaultProducts(List<UserEntity> users) {
     log.info("Creating default items");
-
     UserEntity zdenek = users.get(0);
     UserEntity petr = users.get(1);
-
     return Arrays.asList(
         productService.setUpNewProduct(new NewProductRequestDTO("car1","blueCar","http://localhost:8080",100,500), zdenek),
         productService.setUpNewProduct(new NewProductRequestDTO("car2","blueCar","http://localhost:8080",100,500), zdenek),
