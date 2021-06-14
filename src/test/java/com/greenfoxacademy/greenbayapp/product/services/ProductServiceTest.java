@@ -104,7 +104,7 @@ public class ProductServiceTest {
         ProductFactory.createUnsoldProductDTO_defaultDTO_sellerZdenek(3L)
     ));
 
-    Mockito.when(productRepository.filterUnsoldPaginated(any(),any())).thenReturn(products);
+    Mockito.when(productRepository.filterUnsoldPaginated(any())).thenReturn(products);
 
     UnsoldProductsResponseDTO result = productService.filterUnsoldProducts(1);
 

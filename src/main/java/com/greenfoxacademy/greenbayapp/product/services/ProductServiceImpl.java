@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public UnsoldProductsResponseDTO filterUnsoldProducts(Integer pageId) {
     Pageable pageable = PageRequest.of(pageId - 1, 5);
-    List<Product> unsoldProducts = productRepository.filterUnsoldPaginated(pageId, pageable);
+    List<Product> unsoldProducts = productRepository.filterUnsoldPaginated(pageable);
     List<UnsoldProductDTO> convertedProducts = convertProductsToUnsoldProductsDetailsDTO(unsoldProducts);
     return new UnsoldProductsResponseDTO(convertedProducts);
   }

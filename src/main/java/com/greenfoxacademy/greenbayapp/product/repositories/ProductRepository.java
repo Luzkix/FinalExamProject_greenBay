@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
   @Query("SELECT c FROM Product c WHERE c.sold = false ORDER BY c.enlistingTime ASC")
-  List<Product> filterUnsoldPaginated(Integer pageId, Pageable pageable);
+  List<Product> filterUnsoldPaginated(Pageable pageable);
 }
