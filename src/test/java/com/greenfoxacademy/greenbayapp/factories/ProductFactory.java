@@ -124,29 +124,6 @@ public class ProductFactory {
     return unsoldProductDTO;
   }
 
-  public static ProductDetailsResponseDTO createProductDetailsResponseDTO(
-        Long id, String name, String description, String photoUrl, Integer startingPrice, Integer purchasePrice,
-        Boolean sold, Integer soldPrice, LocalDateTime enlistingTime, LocalDateTime soldTime, Long sellerId,
-        String sellerName, Long buyerId, String buyerName, List<BidDetailsDTO> bids) {
-    ProductDetailsResponseDTO productDetails = new ProductDetailsResponseDTO();
-    productDetails.setId(id);
-    productDetails.setName(name);
-    productDetails.setDescription(description);
-    productDetails.setPhotoUrl(photoUrl);
-    productDetails.setStartingPrice(startingPrice);
-    productDetails.setPurchasePrice(purchasePrice);
-    productDetails.setSold(sold);
-    productDetails.setSoldPrice(soldPrice);
-    productDetails.setEnlistingTime(enlistingTime);
-    productDetails.setSoldTime(soldTime);
-    productDetails.setSellerId(sellerId);
-    productDetails.setSellerName(sellerName);
-    productDetails.setBuyerId(buyerId);
-    productDetails.setBuyerName(buyerName);
-    productDetails.setBids(bids);
-    return productDetails;
-  }
-
   public static ProductDetailsResponseDTO createProductDetailsResponseDTO_defaultSold_sellerZdenek_bidderPetr(
       Long productId) {
     UserEntity zdenek = UserFactory.createUser_defaultUserZdenek();
