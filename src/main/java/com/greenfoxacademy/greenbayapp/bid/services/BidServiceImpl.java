@@ -23,7 +23,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class BidServiceImpl implements BidService {
   private BidRepository bidRepository;
   private ProductService productService;
